@@ -1,11 +1,11 @@
 package com.semillero.ubuntu.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -16,8 +16,10 @@ public class Publicacion {
     private Long id;
 
     @NotNull(message = "titulo es un campo obligatorio")
+
     private String titulo;
-    @NotNull(message = "titulo es un campo obligatorio")
+    @NotNull(message = "descripcion es un campo obligatorio")
+    @NotBlank
     private String descripcion;
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
