@@ -2,7 +2,6 @@ package com.semillero.ubuntu.controllers;
 
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.services.impl.PublicacionServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -40,7 +39,7 @@ public class PublicacionController {
     }
 
     @PostMapping
-    public ResponseEntity save(@Valid @RequestBody Publicacion publicacion, BindingResult result) {
+    public ResponseEntity save(@RequestBody Publicacion publicacion, BindingResult result) {
         if (result.hasErrors()) {
             return validation(result);
         }
@@ -48,7 +47,7 @@ public class PublicacionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity edit(@Valid @RequestBody Publicacion publicacion, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity edit(@RequestBody Publicacion publicacion, BindingResult result, @PathVariable Long id) {
         if (result.hasErrors()) {
             return validation(result);
         }

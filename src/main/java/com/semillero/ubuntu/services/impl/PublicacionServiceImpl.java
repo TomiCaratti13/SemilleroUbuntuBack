@@ -4,11 +4,10 @@ import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-@Service
+
 public class PublicacionServiceImpl implements PublicacionService {
 
     @Autowired
