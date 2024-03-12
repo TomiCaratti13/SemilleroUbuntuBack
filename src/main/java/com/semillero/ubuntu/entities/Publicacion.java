@@ -16,7 +16,6 @@ public class Publicacion {
     private Long id;
 
     @NotNull(message = "titulo es un campo obligatorio")
-
     private String titulo;
     @NotNull(message = "descripcion es un campo obligatorio")
     @NotBlank

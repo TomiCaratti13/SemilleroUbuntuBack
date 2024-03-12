@@ -21,22 +21,17 @@ public class PublicacionController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        return service.findAll();
     }
 
     @GetMapping("/activas")
     public ResponseEntity<?> activas() {
-        return ResponseEntity.ok(service.activas());
+        return service.activas();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<Publicacion> o = service.findById(id);
-        if (o.isPresent()) {
-            Publicacion publicacion = o.get();
-            return ResponseEntity.ok(publicacion);
-        }
-        return ResponseEntity.notFound().build();
+        return service.findById(id);
     }
 
     @PostMapping
@@ -44,7 +39,7 @@ public class PublicacionController {
         if (result.hasErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(201).body(service.save(publicacion));
+        return service.save(publicacion);
     }
 
     @PutMapping("/{id}")
@@ -52,26 +47,17 @@ public class PublicacionController {
         if (result.hasErrors()) {
             return validation(result);
         }
-        Optional<Publicacion> o = service.findById(id);
-        if (o.isPresent()) {
-            Publicacion publicacionDb = o.get();
-            publicacionDb.setTitulo(publicacion.getTitulo());
-            publicacionDb.setDescripcion(publicacion.getDescripcion());
-            return ResponseEntity.status(201).body(service.save(publicacionDb));
-        }
-        return ResponseEntity.notFound().build();
+        return service.update(publicacion, id);
     }
 
     @PutMapping("/visualizacion/{id}")
-    public ResponseEntity<?> aumentarView(@PathVariable Long id){
-        service.incrementarVisualizacion(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> aumentarView(@PathVariable Long id) {
+        return service.incrementarVisualizacion(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> inhabilitar(@PathVariable Long id){
-        service.deleted(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> inhabilitar(@PathVariable Long id) {
+        return service.deleted(id);
     }
 
     private ResponseEntity<?> validation(BindingResult result) {
