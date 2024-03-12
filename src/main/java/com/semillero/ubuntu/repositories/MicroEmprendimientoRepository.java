@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmprendimiento, String> {
 
-
+    @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE :nombre")
+    public List<MicroEmprendimiento> buscarPorNombre(@Param("nombre") String nombre);
 }

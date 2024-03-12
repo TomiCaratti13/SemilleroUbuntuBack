@@ -3,6 +3,7 @@ package com.semillero.ubuntu.services;
 
 import com.semillero.ubuntu.dtos.MicroEmprendimientoRequest;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
+import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import jakarta.transaction.Transactional;
@@ -83,6 +84,31 @@ public class MicroEmprendimientoService {
 
         }
 
+    }
+
+    public List<MicroEmprendimiento> buscarPorNombre(String nombre)throws ExceptionCreados{
+
+        List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.buscarPorNombre(nombre);
+
+        if(respuesta.isEmpty()) {
+
+            throw new ExceptionCreados("No se encontraron microemprendimientos");
+
+        }else{
+
+            return respuesta;
+
+        }
+
+    }
+
+    public void ocultarMicroEmprendimiento(String id) {
+        Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
+        if (respuesta.isPresent()) {
+            MicroEmprendimiento microEmprendimiento = respuesta.get();
+            microEmprendimiento.setDeleted(false);
+            microEmprendimientoRepository.save(microEmprendimiento);
+        }
     }
 
 

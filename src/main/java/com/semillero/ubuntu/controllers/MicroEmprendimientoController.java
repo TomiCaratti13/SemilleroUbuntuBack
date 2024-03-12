@@ -18,8 +18,9 @@ public class MicroEmprendimientoController {
     @Autowired
     MicroEmprendimientoService microEmprendimientoService;
 
+  //  @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/crear")
-    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento)throws ExceptionCreados {
+    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento) {
 
         try {
             microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento);
@@ -36,8 +37,10 @@ public class MicroEmprendimientoController {
 
     }
 
+    //  @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PostMapping("editar/{id}")
-    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable String id, @RequestBody MicroEmprendimientoRequest microEmprendimientoRequest)throws ExceptionCreados{
+    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable String id, @RequestBody MicroEmprendimientoRequest microEmprendimientoRequest){
 
         try {
             microEmprendimientoService.EditarMicroEmprendimiento(id, microEmprendimientoRequest);
@@ -52,8 +55,10 @@ public class MicroEmprendimientoController {
 
     }
 
+    //  @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping("/eliminar/{id}")
-    public ResponseEntity<?> EliminarMicroEmprendimiento(@PathVariable String id) throws ExceptionCreados{
+    public ResponseEntity<?> EliminarMicroEmprendimiento(@PathVariable String id) {
 
         try {
             microEmprendimientoService.EliminarMicroEmprendimiento(id);
@@ -69,7 +74,7 @@ public class MicroEmprendimientoController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<?> ListarMicroEmprendimientos()throws ExceptionCreados{
+    public ResponseEntity<?> ListarMicroEmprendimientos(){
 
         try {
 
@@ -80,6 +85,40 @@ public class MicroEmprendimientoController {
             return ResponseEntity.notFound().build();
 
         }
+
+    }
+
+    @GetMapping("/buscarPorNombre")
+    public ResponseEntity<?> BuscarPorNombre(@RequestBody String nombre){
+
+
+        try {
+
+            return ResponseEntity.ok(microEmprendimientoService.buscarPorNombre(nombre));
+
+        }catch (Exception e){
+
+            return ResponseEntity.notFound().build();
+
+        }
+
+
+    }
+
+    @PostMapping("/ocultar/{id}")
+    public ResponseEntity<?> OcultarMicroEmprendimiento(@PathVariable String id) {
+
+        try {
+            microEmprendimientoService.ocultarMicroEmprendimiento(id);
+
+            return ResponseEntity.noContent().build();
+
+        }catch (Exception e){
+
+            return ResponseEntity.notFound().build();
+
+        }
+
 
     }
 }
