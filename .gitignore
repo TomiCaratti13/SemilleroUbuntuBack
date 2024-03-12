@@ -65,4 +65,4 @@ build/
 
 ### VARIABLES DE ENTORNO ###
 .env
-develop.env
+.env

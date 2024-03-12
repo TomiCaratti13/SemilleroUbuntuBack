@@ -33,8 +33,6 @@ public class MicroEmprendimientoRequest implements Serializable {
     private String mensajeContacto;
     @JsonProperty("deleted")
     private boolean deleted;
-    @JsonProperty("activo")
-    private boolean activo;
     @JsonProperty("gestionado")
     private boolean gestionado;
 

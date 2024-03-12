@@ -56,7 +56,7 @@ public class MicroEmprendimientoService {
 
         }
 
-    public void Eliminar(String id)throws ExceptionCreados{
+    public void EliminarMicroEmprendimiento(String id)throws ExceptionCreados{
 
             Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
 
@@ -70,7 +70,7 @@ public class MicroEmprendimientoService {
 
     }
 
-    public List<MicroEmprendimiento> listarMicroEmprendimientos()throws ExceptionCreados{
+    public List<MicroEmprendimiento> ListarMicroEmprendimientos()throws ExceptionCreados{
 
         List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findAll();
         if(respuesta.isEmpty()){

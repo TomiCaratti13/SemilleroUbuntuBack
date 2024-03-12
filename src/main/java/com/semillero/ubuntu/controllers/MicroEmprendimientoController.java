@@ -56,7 +56,7 @@ public class MicroEmprendimientoController {
     public ResponseEntity<?> EliminarMicroEmprendimiento(@PathVariable String id) throws ExceptionCreados{
 
         try {
-            microEmprendimientoService.Eliminar(id);
+            microEmprendimientoService.EliminarMicroEmprendimiento(id);
 
             return ResponseEntity.noContent().build();
 
@@ -68,12 +68,12 @@ public class MicroEmprendimientoController {
 
     }
 
-    @GetMapping("/Listar")
+    @GetMapping("/listar")
     public ResponseEntity<?> ListarMicroEmprendimientos()throws ExceptionCreados{
 
         try {
 
-            return ResponseEntity.ok(microEmprendimientoService.listarMicroEmprendimientos());
+            return ResponseEntity.ok(microEmprendimientoService.ListarMicroEmprendimientos());
 
         }catch (Exception e){
 
