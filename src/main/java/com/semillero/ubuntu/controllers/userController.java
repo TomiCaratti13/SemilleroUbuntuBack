@@ -14,11 +14,7 @@ public class userController {
     public userController(UsuarioServiceImpl usuarioService) {
         this.usuarioService = usuarioService;
     }
-/*
-    @PostMapping(value ="/save")
-    public ResponseEntity<?> userLogin(@RequestBody Usuario usuario){
-        return ResponseEntity.ok(usuarioService.crearUsuario(usuario)) ;
-    }*/
+
     @PostMapping(value ="/save")
     public ResponseEntity<UsuarioDTO> userLogin(@RequestBody Usuario usuario){
         Usuario usuarioGuardado = usuarioService.crearUsuario(usuario);
@@ -28,7 +24,7 @@ public class userController {
 
     private UsuarioDTO convertirUsuarioAUsuarioDTO(Usuario usuario) {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setId(Math.toIntExact(usuario.getId()));
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido(usuario.getApellido());
         usuarioDTO.setEmail(usuario.getEmail());

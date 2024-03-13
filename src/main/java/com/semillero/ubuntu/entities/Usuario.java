@@ -12,7 +12,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generar el ID automáticamente por la base de datos
-    private int id;
+    private Long id;
     private String Nombre;
     private String Apellido;
     private String Email;
