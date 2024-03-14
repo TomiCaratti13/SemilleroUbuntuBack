@@ -11,7 +11,7 @@ public class Imagen {
         private Long id;
 
         private String cloudinaryUrl;
-
+        private Boolean dadaDeAlta;
         public void setCloudinaryUrl(String cloudinaryUrl) {
             this.cloudinaryUrl = cloudinaryUrl;
         }

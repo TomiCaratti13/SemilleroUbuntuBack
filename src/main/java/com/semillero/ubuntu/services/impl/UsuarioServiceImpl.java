@@ -1,10 +1,14 @@
 package com.semillero.ubuntu.services.impl;
+
+import com.semillero.ubuntu.dtos.UsuarioDTO;
 import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.enums.Rol;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
 import com.semillero.ubuntu.services.UsuarioInterfaz;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,20 +22,21 @@ public class UsuarioServiceImpl implements UsuarioInterfaz {
 
     @Override
     @Transactional
-    public Usuario crearUsuario(Usuario usuario) {
+    public ResponseEntity<?> crearUsuario(Usuario usuario) {
         usuario.setRol(Rol.ADMINISTRADORES);
         usuario.setDeleted(false);
-        return usuarioRepository.save(usuario);
+        UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
+        usuarioRepository.save(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioDTO);
     }
 
     @Override
     @Transactional
-    public Usuario modificarUsuario(Long id, String nombre, String apellido, String email, String password, String telefono, Rol rol) throws ExceptionCreados {
-        Usuario usuario = new Usuario();
+    public ResponseEntity<?> modificarUsuario(Long id, String nombre, String apellido, String email, String password, String telefono, Rol rol) throws ExceptionCreados {
         try {
             Optional<Usuario> respuesta = usuarioRepository.findById(String.valueOf(id));
             if (respuesta.isPresent()) {
-                usuario = respuesta.get();
+                Usuario usuario = respuesta.get();
                 usuario.setNombre(nombre);
                 usuario.setApellido(apellido);
                 usuario.setEmail(email);
@@ -39,12 +44,14 @@ public class UsuarioServiceImpl implements UsuarioInterfaz {
                 usuario.setTelefono(telefono);
                 usuario.setRol(rol);
                 usuario.setDeleted(false);
-                return usuarioRepository.save(usuario);
+                UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
+                usuarioRepository.save(usuario);
+                return ResponseEntity.ok(usuarioDTO);
             }
         } catch (Exception e) {
             throw new ExceptionCreados("Usuario no encontrado" + e.getMessage());
         }
-        return usuario;
+        return ResponseEntity.notFound().build();
     }
 
     @Override
@@ -60,6 +67,19 @@ public class UsuarioServiceImpl implements UsuarioInterfaz {
         } catch (Exception e) {
             throw new ExceptionCreados("Usuario no encontrado" + e.getMessage());
         }
+    }
+    private UsuarioDTO convertirUsuarioAUsuarioDTO(Usuario usuario) {
+        if (usuario == null) {
+            return null; // or throw an exception, depending on your requirements
+        }
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setRol(usuario.getRol());
+        // Set other necessary fields
+        return usuarioDTO;
     }
 
 }

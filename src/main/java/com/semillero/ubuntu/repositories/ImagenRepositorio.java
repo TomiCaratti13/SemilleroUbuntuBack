@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ImagesRepositorio  extends JpaRepository<Imagen,Long> {
-
+public interface ImagenRepositorio extends JpaRepository<Imagen,Long> {
+    Imagen findById(long id);
 }

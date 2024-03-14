@@ -16,22 +16,12 @@ public class userController {
     }
 
     @PostMapping(value ="/save")
-    public ResponseEntity<UsuarioDTO> userLogin(@RequestBody Usuario usuario){
-        Usuario usuarioGuardado = usuarioService.crearUsuario(usuario);
-        UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuarioGuardado);
-        return ResponseEntity.ok(usuarioDTO);
+    public ResponseEntity<?> userLogin(@RequestBody Usuario usuario){
+        return ResponseEntity.ok(usuarioService.crearUsuario(usuario));
     }
 
-    private UsuarioDTO convertirUsuarioAUsuarioDTO(Usuario usuario) {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(Math.toIntExact(usuario.getId()));
-        usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setApellido(usuario.getApellido());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setTelefono(usuario.getTelefono());
-        usuarioDTO.setRol(usuario.getRol());
-        // Establece otros campos necesarios
-        return usuarioDTO;
-    }
+
+
+
 }
 

@@ -1,4 +1,4 @@
-package com.semillero.ubuntu.javawhizzConfig;
+package com.semillero.ubuntu.cloudinaryConfig;
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,6 @@ public class CloudinaryConfig {
         config.put("cloud_name", cloudName);
         config.put("api_key", apiKey);
         config.put("api_secret", apiSecret);
-
         return new Cloudinary(config);
     }
 }
