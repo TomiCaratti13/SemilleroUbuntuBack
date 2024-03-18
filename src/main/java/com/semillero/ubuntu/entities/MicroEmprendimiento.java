@@ -26,8 +26,8 @@ public class MicroEmprendimiento {
     private String subRubro;
     private boolean deleted;
     private boolean gestionado;
-    @OneToOne
-    private Imagen imagen;
+    //@OneToOne
+    //private Imagen imagen;
     private String mensajeContacto;
 
 }
