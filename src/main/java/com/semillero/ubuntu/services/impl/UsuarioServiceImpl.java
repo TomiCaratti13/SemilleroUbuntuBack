@@ -16,7 +16,7 @@ public class UsuarioServiceImpl implements UsuarioInterfaz {
     @Override
     @Transactional
     public Usuario crearUsuario(Usuario usuario) {
-        usuario.setRol(Rol.ADMINISTRADORES);
+       // usuario.setRol(Rol.ADMINISTRADORES);
         usuario.setDeleted(false);
         return usuarioRepository.save(usuario);
     }
@@ -30,7 +30,7 @@ public class UsuarioServiceImpl implements UsuarioInterfaz {
         usuario.setEmail(email);
         usuario.setPassword(password);
         usuario.setTelefono(telefono);
-        usuario.setRol(rol);
+        usuario.setRole(rol);
         usuario.setDeleted(false);
         return usuarioRepository.save(usuario);
     }

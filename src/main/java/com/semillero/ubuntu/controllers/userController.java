@@ -33,7 +33,7 @@ public class userController {
         usuarioDTO.setApellido(usuario.getApellido());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setTelefono(usuario.getTelefono());
-        usuarioDTO.setRol(usuario.getRol());
+        usuarioDTO.setRol(usuario.getRole());
         // Establece otros campos necesarios
         return usuarioDTO;
     }

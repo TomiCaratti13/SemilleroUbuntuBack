@@ -1,15 +1,16 @@
 package com.semillero.ubuntu.services.impl;
 
+import com.semillero.ubuntu.dtos.mapper.DtoMapperPublicacion;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.PublicacionService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 import java.util.Date;
@@ -26,7 +27,7 @@ public class PublicacionServiceImpl implements PublicacionService {
     @Override
     public ResponseEntity<?> save(Publicacion publicacion) {
         publicacion.setFechaCreacion(new Date());
-        return ResponseEntity.status(201).body(repository.save(publicacion));
+        return ResponseEntity.status(201).body(DtoMapperPublicacion.getInstance().setPublicacion(repository.save(publicacion)).build());
     }
 
     @Transactional
@@ -37,7 +38,7 @@ public class PublicacionServiceImpl implements PublicacionService {
             Publicacion publicacionDb = o.get();
             publicacionDb.setTitulo(publicacion.getTitulo());
             publicacionDb.setDescripcion(publicacion.getDescripcion());
-            return ResponseEntity.status(201).body(repository.save(publicacionDb));
+            return ResponseEntity.status(201).body(DtoMapperPublicacion.getInstance().setPublicacion(repository.save(publicacion)).build());
         }
         return ResponseEntity.notFound().build();
     }
@@ -48,7 +49,7 @@ public class PublicacionServiceImpl implements PublicacionService {
         Optional<Publicacion> o = repository.findById(id);
         if (o.isPresent()) {
             Publicacion publicacion = o.get();
-            return ResponseEntity.ok(publicacion);
+            return ResponseEntity.ok(DtoMapperPublicacion.getInstance().setPublicacion(publicacion).build());
         }
         return ResponseEntity.notFound().build();
     }
@@ -56,13 +57,13 @@ public class PublicacionServiceImpl implements PublicacionService {
     @Transactional(readOnly = true)
     @Override
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(repository.findAll().stream().map(p -> DtoMapperPublicacion.getInstance().setPublicacion(p).build()));
     }
 
     @Transactional(readOnly = true)
     @Override
     public ResponseEntity<?> activas() {
-        return ResponseEntity.ok(repository.findByDeletedFalse());
+        return ResponseEntity.ok(repository.findByDeletedFalseOrderByFechaCreacionDesc().stream().map(p -> DtoMapperPublicacion.getInstance().setPublicacion(p).build()));
     }
 
     @Transactional

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PublicacionRespository extends JpaRepository<Publicacion,Long> {
 
-    List<Publicacion> findByDeletedFalse();
+    List<Publicacion> findByDeletedFalseOrderByFechaCreacionDesc();
 
 }
