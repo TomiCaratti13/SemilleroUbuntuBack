@@ -39,8 +39,8 @@ public class MicroEmprendimientoController {
 
     //  @PreAuthorize("hasRole('ROLE_ADMIN')")
 
-    @PostMapping("editar/{id}")
-    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable String id, @RequestBody MicroEmprendimientoRequest microEmprendimientoRequest){
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable Long id, @RequestBody MicroEmprendimientoRequest microEmprendimientoRequest){
 
         try {
             microEmprendimientoService.EditarMicroEmprendimiento(id, microEmprendimientoRequest);
@@ -57,8 +57,8 @@ public class MicroEmprendimientoController {
 
     //  @PreAuthorize("hasRole('ROLE_ADMIN')")
 
-    @GetMapping("/eliminar/{id}")
-    public ResponseEntity<?> EliminarMicroEmprendimiento(@PathVariable String id) {
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> EliminarMicroEmprendimiento(@PathVariable Long id) {
 
         try {
             microEmprendimientoService.EliminarMicroEmprendimiento(id);
@@ -88,8 +88,8 @@ public class MicroEmprendimientoController {
 
     }
 
-    @GetMapping("/buscarPorNombre")
-    public ResponseEntity<?> BuscarPorNombre(@RequestBody String nombre){
+    @GetMapping("/buscarPorNombre/{nombre}")
+    public ResponseEntity<?> BuscarPorNombre(@PathVariable String nombre){
 
 
         try {
@@ -104,9 +104,10 @@ public class MicroEmprendimientoController {
 
 
     }
+    //  @PreAuthorize("hasRole('ROLE_ADMIN')")
 
-    @PostMapping("/ocultar/{id}")
-    public ResponseEntity<?> OcultarMicroEmprendimiento(@PathVariable String id) {
+    @DeleteMapping("/ocultar/{id}")
+    public ResponseEntity<?> OcultarMicroEmprendimiento(@PathVariable Long id) {
 
         try {
             microEmprendimientoService.ocultarMicroEmprendimiento(id);

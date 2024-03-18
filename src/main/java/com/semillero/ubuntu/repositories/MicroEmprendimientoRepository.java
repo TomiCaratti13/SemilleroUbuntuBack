@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmprendimiento, String> {
+public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmprendimiento, Long> {
 
-    @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE :nombre")
+    @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE %:nombre%")
     public List<MicroEmprendimiento> buscarPorNombre(@Param("nombre") String nombre);
 }
