@@ -5,6 +5,7 @@ import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.PublicacionService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
