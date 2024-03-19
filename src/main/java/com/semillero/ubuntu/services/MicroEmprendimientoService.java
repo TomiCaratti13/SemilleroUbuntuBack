@@ -8,6 +8,7 @@ import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class MicroEmprendimientoService {
 
     @Transactional
     public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento) {
-
-
         microEmprendimientoRepository.save(microEmprendimiento);
-
+    }
+    public Optional<MicroEmprendimiento> findById(Long id) {
+        return  microEmprendimientoRepository.findById(id);
     }
 
     @Transactional
@@ -45,7 +46,7 @@ public class MicroEmprendimientoService {
             microEmprendimiento.setCiudad(microEmprendimiento.getCiudad());
             microEmprendimiento.setRubro(microEmprendimiento.getRubro());
             microEmprendimiento.setSubRubro(microEmprendimiento.getSubRubro());
-            microEmprendimiento.setMensajeContacto(microEmprendimiento.getMensajeContacto());
+            //microEmprendimiento.setMensajeContacto(microEmprendimiento.getMensajeContacto());
       //      microEmprendimiento.setImagen(microEmprendimiento.getImagen());
             microEmprendimiento.setDeleted(microEmprendimiento.isDeleted());
             microEmprendimiento.setGestionado(microEmprendimiento.isGestionado());
