@@ -1,18 +1,18 @@
 package com.semillero.ubuntu.services.impl;
 
+import com.semillero.ubuntu.dtos.PublicacionDto;
+import com.semillero.ubuntu.dtos.mapper.DtoMapperPublicacion;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.PublicacionService;
-import org.apache.coyote.Response;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import org.springframework.http.HttpStatusCode;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import java.util.Date;
 import java.util.List;
@@ -29,22 +29,29 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     @Transactional
     @Override
-    public ResponseEntity<?> save(List<MultipartFile> imagenes, Publicacion publicacion) {
-        publicacion.setFechaCreacion(new Date());
-       Publicacion publicacion1 = repository.save(publicacion);
-        cargaImagen.cargarImagenPublicacion(imagenes,publicacion);
-        return ResponseEntity.status(201).body(publicacion1);
+    public ResponseEntity<?> save(Publicacion publicacion) {
+        try {
+            publicacion.setFechaCreacion(new Date());
+            Publicacion publicacionGuardada = repository.save(publicacion);
+            System.out.println("ID DE PUBLICACION  "+publicacionGuardada.getId());
+            Long publicacionId = publicacionGuardada.getId(); // Suponiendo que getId() devuelve el ID de la publicación
+            return ResponseEntity.ok(publicacionId);
+        } catch (DataIntegrityViolationException | ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al guardar la publicación: " + e.getMessage());
+        }
     }
+
 
     @Transactional
     @Override
-    public ResponseEntity<?> update(List<MultipartFile>imagenes,Publicacion publicacion, Long id) {
+    public ResponseEntity<?> update(List<MultipartFile> imagenes, PublicacionDto publicacion, Long id) {
         Optional<Publicacion> o = repository.findById(id);
         if (o.isPresent()) {
             Publicacion publicacionDb = o.get();
             publicacionDb.setTitulo(publicacion.getTitulo());
             publicacionDb.setDescripcion(publicacion.getDescripcion());
-            return ResponseEntity.status(201).body(repository.save(publicacionDb));
+            repository.save(publicacionDb);
+            return ResponseEntity.status(201).body(publicacion);
         }
         return ResponseEntity.notFound().build();
     }
@@ -55,7 +62,7 @@ public class PublicacionServiceImpl implements PublicacionService {
         Optional<Publicacion> o = repository.findById(id);
         if (o.isPresent()) {
             Publicacion publicacion = o.get();
-            return ResponseEntity.ok(publicacion);
+            return ResponseEntity.ok(DtoMapperPublicacion.getInstance().setPublicacion(publicacion).build());
         }
         return ResponseEntity.notFound().build();
     }
@@ -63,13 +70,13 @@ public class PublicacionServiceImpl implements PublicacionService {
     @Transactional(readOnly = true)
     @Override
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(repository.findAll().stream().map(p -> DtoMapperPublicacion.getInstance().setPublicacion(p).build()));
     }
 
     @Transactional(readOnly = true)
     @Override
     public ResponseEntity<?> activas() {
-        return ResponseEntity.ok(repository.findByDeletedFalse());
+        return ResponseEntity.ok(repository.findByDeletedFalseOrderByFechaCreacionDesc().stream().map(p -> DtoMapperPublicacion.getInstance().setPublicacion(p).build()));
     }
 
     @Transactional

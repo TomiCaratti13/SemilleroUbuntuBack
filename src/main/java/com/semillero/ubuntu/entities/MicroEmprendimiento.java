@@ -1,13 +1,7 @@
 package com.semillero.ubuntu.entities;
-
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,10 +22,12 @@ public class MicroEmprendimiento {
     private String subRubro;
     private boolean deleted;
     private boolean gestionado;
-   /* @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "microemprendimiento_id")
-    @Size(min = 1, max = 3)
-    private List<Imagen> imagenes;*/
     private String mensajeContacto;
+    @OneToMany
+    private List<Contacto> contactos = new ArrayList<>();
+    public void addContactos(Contacto contacto) {
+        this.contactos.add(contacto);
+    }
+
 
 }

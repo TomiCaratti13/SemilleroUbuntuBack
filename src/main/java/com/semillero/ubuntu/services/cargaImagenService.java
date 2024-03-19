@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface cargaImagenService {
-    ResponseEntity<?> cargarImagenPublicacion(@RequestParam("imagenes") List<MultipartFile> imagenes, @RequestParam() Publicacion publicacion) throws ExceptionCreados;
+    ResponseEntity<?> cargarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) throws ExceptionCreados;
 
     ResponseEntity<?> modificarImagenPublicacion(@RequestParam("imagenes") List<MultipartFile> nuevasImagenes,@RequestParam() Publicacion publicacion) throws ExceptionCreados;
 

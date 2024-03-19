@@ -8,18 +8,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generar el ID automáticamente por la base de datos
     private Long id;
-    private String Nombre;
-    private String Apellido;
-    private String Email;
-    private String Password;
-    private Boolean Deleted;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String password;
+    private Boolean deleted;
     @Enumerated(EnumType.STRING)
-    private Rol rol;
-    private String Telefono;
+    private Rol role;
+    private String telefono;
 
 }

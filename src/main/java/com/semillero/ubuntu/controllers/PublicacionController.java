@@ -1,9 +1,12 @@
 package com.semillero.ubuntu.controllers;
 
 
+import com.semillero.ubuntu.dtos.PublicacionDto;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.services.impl.PublicacionServiceImpl;
+import com.semillero.ubuntu.services.impl.cargaImagenImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,8 @@ import java.util.Optional;
 public class PublicacionController {
     @Autowired
     private PublicacionServiceImpl service;
-
+    @Autowired
+    cargaImagenImpl serviceImagen;
     @GetMapping
     public ResponseEntity<?> findAll() {
         return service.findAll();
@@ -36,16 +40,24 @@ public class PublicacionController {
     }
 
     @PostMapping()
-    public ResponseEntity save(@RequestParam("imagenes") List<MultipartFile> imagenes, @RequestBody Publicacion publicacion, BindingResult result) {
+    public ResponseEntity<?> save(@RequestBody Publicacion publicacion, BindingResult result) {
         if (result.hasErrors()) {
-
             return validation(result);
         }
-        return service.save(imagenes,publicacion);
+        ResponseEntity<?> response = service.save(publicacion);
+        Long publicacionId = (Long) response.getBody();
+        return ResponseEntity.ok(publicacionId);
+    }
+    @PostMapping("/publicacion/{id}/imagenes")
+    public ResponseEntity<?> saveImagenes(@PathVariable Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
+        // Guardar las imágenes asociadas con la publicación identificada por 'id'
+        serviceImagen.cargarImagenPublicacion(id, imagenes);
+        return ResponseEntity.ok().build();
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity edit(@RequestParam("imagenes") List<MultipartFile> imagenes,@RequestBody Publicacion publicacion, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity edit(@RequestParam("imagenes") List<MultipartFile> imagenes, @RequestBody PublicacionDto publicacion, BindingResult result, @PathVariable Long id) {
         if (result.hasErrors()) {
             return validation(result);
         }

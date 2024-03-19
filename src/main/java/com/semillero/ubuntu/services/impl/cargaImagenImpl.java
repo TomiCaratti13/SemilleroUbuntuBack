@@ -33,9 +33,11 @@ public class cargaImagenImpl implements cargaImagenService {
     private Cloudinary cloudinary;
 
     ////CRUD PARA PUBLICACION
-    public ResponseEntity<?> cargarImagenPublicacion(@RequestParam("imagenes") List<MultipartFile> imagenes,@RequestBody() Publicacion publicacion) {
-        if (publicacion != null) {
+    public ResponseEntity<?> cargarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
+        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+        if (respuesta.isPresent()) {
             try {
+                Publicacion publicacion = respuesta.get();
                 if (!imagenes.isEmpty()) {
                     List<String> urls = new ArrayList<>();
                     for (MultipartFile imagen : imagenes) {
@@ -56,10 +58,10 @@ public class cargaImagenImpl implements cargaImagenService {
                     imagenRepositorio.saveAll(nuevasImagenes);
                     publicacion.setImagenes(nuevasImagenes);
                     publicacionRepositorio.save(publicacion);
-                    List<ImagenDTO> imagenDTOs = convertirAImagenDTO(publicacion.getImagenes());
+
                     return ResponseEntity.ok(Map.of(
                             "message", "Imágenes cargadas exitosamente",
-                            "imagenes", imagenDTOs));
+                            "publicacion", publicacion));
                 }
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
