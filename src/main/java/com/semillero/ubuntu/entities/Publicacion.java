@@ -2,6 +2,7 @@ package com.semillero.ubuntu.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,7 +24,8 @@ public class Publicacion {
     private Date fechaCreacion;
     private Integer visualizaciones;
     private boolean deleted;
-//    @OneToMany
-//    private List<Imagen> imagenes;
+    @OneToMany()
+    @Size(min = 1, max = 3)
+    private List<Imagen> imagenes;
 
 }

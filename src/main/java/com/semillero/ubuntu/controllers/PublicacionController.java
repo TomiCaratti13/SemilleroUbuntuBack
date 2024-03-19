@@ -1,20 +1,22 @@
 package com.semillero.ubuntu.controllers;
 
+
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.services.impl.PublicacionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/publicacion")
 public class PublicacionController {
-
     @Autowired
     private PublicacionServiceImpl service;
 
@@ -33,20 +35,21 @@ public class PublicacionController {
         return service.findById(id);
     }
 
-    @PostMapping
-    public ResponseEntity save(@RequestBody Publicacion publicacion, BindingResult result) {
+    @PostMapping()
+    public ResponseEntity save(@RequestParam("imagenes") List<MultipartFile> imagenes, @RequestBody Publicacion publicacion, BindingResult result) {
         if (result.hasErrors()) {
+
             return validation(result);
         }
-        return service.save(publicacion);
+        return service.save(imagenes,publicacion);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity edit(@RequestBody Publicacion publicacion, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity edit(@RequestParam("imagenes") List<MultipartFile> imagenes,@RequestBody Publicacion publicacion, BindingResult result, @PathVariable Long id) {
         if (result.hasErrors()) {
             return validation(result);
         }
-        return service.update(publicacion, id);
+        return service.update( imagenes,publicacion, id);
     }
 
     @PutMapping("/visualizacion/{id}")

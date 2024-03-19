@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class MicroEmprendimientoRequest implements Serializable {
 
     @JsonProperty("id")
-    private String id;
+    private Long id;
     @JsonProperty("nombre")
     private String nombre;
     @JsonProperty("descripcion")

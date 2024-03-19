@@ -9,7 +9,7 @@ public class Imagen {
         @Id
         @GeneratedValue
         private Long id;
-
+     //   private String nombre;
         private String cloudinaryUrl;
         private Boolean dadaDeAlta;
         public void setCloudinaryUrl(String cloudinaryUrl) {

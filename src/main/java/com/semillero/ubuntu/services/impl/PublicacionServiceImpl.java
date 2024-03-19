@@ -11,28 +11,34 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class PublicacionServiceImpl implements PublicacionService {
+    @Autowired
+    cargaImagenImpl cargaImagen;
 
     @Autowired
     private PublicacionRespository repository;
 
     @Transactional
     @Override
-    public ResponseEntity<?> save(Publicacion publicacion) {
+    public ResponseEntity<?> save(List<MultipartFile> imagenes, Publicacion publicacion) {
         publicacion.setFechaCreacion(new Date());
-        return ResponseEntity.status(201).body(repository.save(publicacion));
+       Publicacion publicacion1 = repository.save(publicacion);
+        cargaImagen.cargarImagenPublicacion(imagenes,publicacion);
+        return ResponseEntity.status(201).body(publicacion1);
     }
 
     @Transactional
     @Override
-    public ResponseEntity<?> update(Publicacion publicacion, Long id) {
+    public ResponseEntity<?> update(List<MultipartFile>imagenes,Publicacion publicacion, Long id) {
         Optional<Publicacion> o = repository.findById(id);
         if (o.isPresent()) {
             Publicacion publicacionDb = o.get();
