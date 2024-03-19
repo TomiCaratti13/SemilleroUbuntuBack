@@ -18,6 +18,7 @@ public class Contacto {
     private String descripcion;
     @OneToOne
     private Usuario usuarioSolicitante;
-
+    @ManyToOne
+    private MicroEmprendimiento microEmprendimiento;
     private boolean gestionado;
 }
