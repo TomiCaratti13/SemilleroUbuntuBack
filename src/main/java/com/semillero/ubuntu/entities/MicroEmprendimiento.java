@@ -21,11 +21,14 @@ public class MicroEmprendimiento {
     private String nombre;
     private String descripcion;
     private String masInformacion;
-    private String pais;
-    private String provincia;
+    @ManyToOne
+    private Pais pais;
+    @ManyToOne
+    private Provincia provincia;
     private String ciudad;
     private String rubro;
-    private String subRubro;
+    @ManyToOne
+    private Rubro subRubro;
     private boolean deleted;
     private boolean gestionado;
     //@OneToOne

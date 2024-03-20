@@ -17,9 +17,6 @@ public class Provincia {
     private Integer id;
     private String Nombre;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "pais_id")
-    private Pais pais;
+
 
 }
