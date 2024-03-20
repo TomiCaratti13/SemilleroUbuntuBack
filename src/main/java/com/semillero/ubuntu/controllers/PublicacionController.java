@@ -44,12 +44,11 @@ public class PublicacionController {
         if (result.hasErrors()) {
             return validation(result);
         }
-        ResponseEntity<?> response = service.save(publicacion);
-        Long publicacionId = (Long) response.getBody();
-        return ResponseEntity.ok(publicacionId);
+
+        return ResponseEntity.ok(service.save(publicacion));
     }
     @PostMapping("/publicacion/{id}/imagenes")
-    public ResponseEntity<?> saveImagenes(@PathVariable Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
+    public ResponseEntity<?> saveImagenes(@PathVariable("id") Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
         // Guardar las imágenes asociadas con la publicación identificada por 'id'
         serviceImagen.cargarImagenPublicacion(id, imagenes);
         return ResponseEntity.ok().build();

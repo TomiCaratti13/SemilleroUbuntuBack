@@ -32,10 +32,8 @@ public class PublicacionServiceImpl implements PublicacionService {
     public ResponseEntity<?> save(Publicacion publicacion) {
         try {
             publicacion.setFechaCreacion(new Date());
-            Publicacion publicacionGuardada = repository.save(publicacion);
-            System.out.println("ID DE PUBLICACION  "+publicacionGuardada.getId());
-            Long publicacionId = publicacionGuardada.getId(); // Suponiendo que getId() devuelve el ID de la publicación
-            return ResponseEntity.ok(publicacionId);
+            repository.save(publicacion);
+            return ResponseEntity.ok(publicacion.getId());
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al guardar la publicación: " + e.getMessage());
         }

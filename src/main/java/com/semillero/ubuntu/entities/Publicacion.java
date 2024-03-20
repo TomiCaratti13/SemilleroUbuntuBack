@@ -17,7 +17,6 @@ public class Publicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull(message = "titulo es un campo obligatorio")
     private String titulo;
     @NotNull(message = "titulo es un campo obligatorio")
