@@ -32,8 +32,8 @@ public class PublicacionServiceImpl implements PublicacionService {
     public ResponseEntity<?> save(Publicacion publicacion) {
         try {
             publicacion.setFechaCreacion(new Date());
-            repository.save(publicacion);
-            return ResponseEntity.ok(publicacion.getId());
+            Publicacion publicacionDb = repository.save(publicacion);
+            return ResponseEntity.ok(publicacionDb);
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al guardar la publicación: " + e.getMessage());
         }
@@ -42,14 +42,15 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     @Transactional
     @Override
-    public ResponseEntity<?> update(List<MultipartFile> imagenes, PublicacionDto publicacion, Long id) {
+    public ResponseEntity<?> update(PublicacionDto publicacion, Long id) {
         Optional<Publicacion> o = repository.findById(id);
         if (o.isPresent()) {
             Publicacion publicacionDb = o.get();
             publicacionDb.setTitulo(publicacion.getTitulo());
             publicacionDb.setDescripcion(publicacion.getDescripcion());
-            repository.save(publicacionDb);
-            return ResponseEntity.status(201).body(publicacion);
+            return ResponseEntity.status(201).body(repository.save(publicacionDb));
+
+
         }
         return ResponseEntity.notFound().build();
     }

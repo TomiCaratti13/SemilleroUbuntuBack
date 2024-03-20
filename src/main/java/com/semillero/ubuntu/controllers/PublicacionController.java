@@ -39,30 +39,32 @@ public class PublicacionController {
         return service.findById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Publicacion publicacion, BindingResult result) {
         if (result.hasErrors()) {
             return validation(result);
         }
-
         return ResponseEntity.ok(service.save(publicacion));
     }
-    @PostMapping("/publicacion/{id}/imagenes")
+    @PostMapping("/{id}/imagenes")
     public ResponseEntity<?> saveImagenes(@PathVariable("id") Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
-        // Guardar las imágenes asociadas con la publicación identificada por 'id'
         serviceImagen.cargarImagenPublicacion(id, imagenes);
         return ResponseEntity.ok().build();
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity edit(@RequestParam("imagenes") List<MultipartFile> imagenes, @RequestBody PublicacionDto publicacion, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity edit(@RequestBody PublicacionDto publicacion, BindingResult result, @PathVariable Long id) {
         if (result.hasErrors()) {
             return validation(result);
         }
-        return service.update( imagenes,publicacion, id);
+        return ResponseEntity.ok(service.update(publicacion, id));
     }
-
+    @PutMapping("editImagenes/{id}")
+    public ResponseEntity editImagenes( @RequestParam("imagenes") List<MultipartFile> imagenes, @PathVariable Long id) {
+        serviceImagen.modificarImagenPublicacion(id,imagenes);
+        return ResponseEntity.ok().build();
+    }
     @PutMapping("/visualizacion/{id}")
     public ResponseEntity<?> aumentarView(@PathVariable Long id) {
         return service.incrementarVisualizacion(id);

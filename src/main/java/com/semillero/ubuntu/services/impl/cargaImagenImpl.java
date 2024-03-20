@@ -7,6 +7,7 @@ import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.ImagenRepositorio;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.cargaImagenService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,8 @@ public class cargaImagenImpl implements cargaImagenService {
     @Autowired
     private Cloudinary cloudinary;
 
-    ////CRUD PARA PUBLICACION
+    @Transactional        ////CRUD PARA PUBLICACION
+    @Override
     public ResponseEntity<?> cargarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
         Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -70,21 +72,17 @@ public class cargaImagenImpl implements cargaImagenService {
 
         return ResponseEntity.notFound().build();
     }
-
-    public ResponseEntity<?> modificarImagenPublicacion(@RequestParam("imagenes") List<MultipartFile> nuevasImagenes,@RequestParam Publicacion publicacion) {
-
-        if (publicacion != null) {
+    @Transactional
+    @Override
+    public ResponseEntity<?> modificarImagenPublicacion(Long id, @RequestParam("imagenes") List<MultipartFile> nuevasImagenes) {
+        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+        if (respuesta.isPresent()) {
             try {
+                Publicacion publicacion = respuesta.get();
                 List<Imagen> imagenesExistentes = publicacion.getImagenes();
                 List<String> urls = new ArrayList<>();
-                int contador = 0;
-                if (imagenesExistentes.size() > nuevasImagenes.size()) {
-                    contador = imagenesExistentes.size();
-                } else {
-                    contador = nuevasImagenes.size();
-                }
-                for (int i = 0; i < contador; i++) {
-                    Imagen imagenExistente = imagenesExistentes.get(i);
+
+                for (int i = 0; i < nuevasImagenes.size(); i++) {
                     MultipartFile nuevaImagen = nuevasImagenes.get(i);
 
                     String imagenId = UUID.randomUUID().toString();
@@ -92,8 +90,18 @@ public class cargaImagenImpl implements cargaImagenService {
                             .upload(nuevaImagen.getBytes(), Map.of("public_id", imagenId));
                     String nuevaUrl = respuestaDeCarga.get("url").toString();
 
-                    imagenExistente.setCloudinaryUrl(nuevaUrl);
-                    imagenExistente.setDadaDeAlta(true);
+                    if (i < imagenesExistentes.size()) {
+                        // La imagen ya existe, mantener la URL existente
+                        Imagen imagenExistente = imagenesExistentes.get(i);
+                        imagenExistente.setCloudinaryUrl(nuevaUrl);
+                        imagenExistente.setDadaDeAlta(true);
+                    } else {
+                        // La imagen es nueva, agregar a la lista de imágenes existentes
+                        Imagen nuevaImagenEntidad = new Imagen();
+                        nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
+                        nuevaImagenEntidad.setDadaDeAlta(true);
+                        imagenesExistentes.add(nuevaImagenEntidad);
+                    }
                     urls.add(nuevaUrl);
                 }
                 imagenRepositorio.saveAll(imagenesExistentes);
@@ -110,6 +118,7 @@ public class cargaImagenImpl implements cargaImagenService {
 
         return ResponseEntity.notFound().build();
     }
+
 
     public ResponseEntity<?> darDeAltaODeBajaImagen(Long imagenId) {
         Optional<Imagen> optionalImagen = imagenRepositorio.findById(imagenId);
@@ -130,8 +139,8 @@ public class cargaImagenImpl implements cargaImagenService {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////CRUD PARA MICROEMPRENDIMIENTO
-
-    private List<ImagenDTO> convertirAImagenDTO(List<Imagen> imagenes) {
+    @Override
+    public List<ImagenDTO> convertirAImagenDTO(List<Imagen> imagenes) {
         List<ImagenDTO> imagenDTOs = new ArrayList<>();
         for (Imagen imagen : imagenes) {
             ImagenDTO imagenDTO = new ImagenDTO();

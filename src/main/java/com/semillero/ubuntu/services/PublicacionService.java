@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PublicacionService {
     ResponseEntity<?> save(Publicacion publicacion);
-    ResponseEntity<?> update(List<MultipartFile>imagenes, PublicacionDto publicacion, Long id);
+    ResponseEntity<?> update(PublicacionDto publicacion, Long id);
     ResponseEntity<?> findById(Long id);
     ResponseEntity<?> findAll();
     ResponseEntity<?> activas();
