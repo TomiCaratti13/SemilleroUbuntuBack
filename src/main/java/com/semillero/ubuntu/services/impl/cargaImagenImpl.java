@@ -139,6 +139,46 @@ public class cargaImagenImpl implements cargaImagenService {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////CRUD PARA MICROEMPRENDIMIENTO
+    @Transactional        ////CRUD PARA PUBLICACION
+
+    public ResponseEntity<?> cargarImagenMicroemprendimiento(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
+        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            try {
+                Publicacion publicacion = respuesta.get();
+                if (!imagenes.isEmpty()) {
+                    List<String> urls = new ArrayList<>();
+                    for (MultipartFile imagen : imagenes) {
+                        String imagenId = UUID.randomUUID().toString();
+                        Map<String, Object> respuestaDeCarga = cloudinary.uploader()
+                                .upload(imagen.getBytes(), Map.of("public_id", imagenId));
+                        String url = respuestaDeCarga.get("url").toString();
+                        urls.add(url);
+                    }
+
+                    List<Imagen> nuevasImagenes = new ArrayList<>();
+                    for (String url : urls) {
+                        Imagen nuevaImagen = new Imagen();
+                        nuevaImagen.setCloudinaryUrl(url);
+                        nuevaImagen.setDadaDeAlta(true);
+                        nuevasImagenes.add(nuevaImagen);
+                    }
+                    imagenRepositorio.saveAll(nuevasImagenes);
+                    publicacion.setImagenes(nuevasImagenes);
+                    publicacionRepositorio.save(publicacion);
+
+                    return ResponseEntity.ok(Map.of(
+                            "message", "Imágenes cargadas exitosamente",
+                            "publicacion", publicacion));
+                }
+            } catch (IOException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public List<ImagenDTO> convertirAImagenDTO(List<Imagen> imagenes) {
         List<ImagenDTO> imagenDTOs = new ArrayList<>();
