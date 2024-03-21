@@ -7,6 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,6 +30,11 @@ public class MicroEmprendimiento {
     private boolean gestionado;
     //@OneToOne
     //private Imagen imagen;
-    private String mensajeContacto;
+    @OneToMany
+    private List<Contacto> contactos = new ArrayList<>();
+
+    public void addContactos(Contacto contacto) {
+        this.contactos.add(contacto);
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.semillero.ubuntu.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,8 @@ public class Publicacion {
     private String titulo;
     @NotNull(message = "titulo es un campo obligatorio")
     private String descripcion;
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date fechaCreacion;
     private Integer visualizaciones;
     private boolean deleted;
