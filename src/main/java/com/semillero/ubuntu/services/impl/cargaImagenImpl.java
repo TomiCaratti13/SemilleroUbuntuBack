@@ -3,8 +3,10 @@ package com.semillero.ubuntu.services.impl;
 import com.cloudinary.Cloudinary;
 import com.semillero.ubuntu.dtos.ImagenDTO;
 import com.semillero.ubuntu.entities.Imagen;
+import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.ImagenRepositorio;
+import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
 import com.semillero.ubuntu.services.cargaImagenService;
 import jakarta.transaction.Transactional;
@@ -12,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,16 +27,16 @@ public class cargaImagenImpl implements cargaImagenService {
 
     @Autowired
     private ImagenRepositorio imagenRepositorio;
-
     @Autowired
     private PublicacionRespository publicacionRepositorio;
-
+    @Autowired
+    private MicroEmprendimientoRepository microEmprendimientoRepositorio;
     @Autowired
     private Cloudinary cloudinary;
 
     @Transactional        ////CRUD PARA PUBLICACION
     @Override
-    public ResponseEntity<?> cargarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
+    public ResponseEntity<?> cargarImagenPublicacion(@RequestParam Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
         Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
         if (respuesta.isPresent()) {
             try {
@@ -74,13 +75,16 @@ public class cargaImagenImpl implements cargaImagenService {
     }
     @Transactional
     @Override
-    public ResponseEntity<?> modificarImagenPublicacion(Long id, @RequestParam("imagenes") List<MultipartFile> nuevasImagenes) {
+    public ResponseEntity<?> modificarImagenPublicacion(@RequestParam Long id, @RequestParam("imagenes") List<MultipartFile> nuevasImagenes) {
         Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
         if (respuesta.isPresent()) {
             try {
                 Publicacion publicacion = respuesta.get();
                 List<Imagen> imagenesExistentes = publicacion.getImagenes();
                 List<String> urls = new ArrayList<>();
+                if (imagenesExistentes.size() == 3) {
+                    imagenesExistentes.clear();
+                }
 
                 for (int i = 0; i < nuevasImagenes.size(); i++) {
                     MultipartFile nuevaImagen = nuevasImagenes.get(i);
@@ -141,11 +145,11 @@ public class cargaImagenImpl implements cargaImagenService {
     //////CRUD PARA MICROEMPRENDIMIENTO
     @Transactional        ////CRUD PARA PUBLICACION
 
-    public ResponseEntity<?> cargarImagenMicroemprendimiento(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
-        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+    public ResponseEntity<?> cargarImagenMicroemprendimiento(@RequestParam Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
+        Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepositorio.findById(id);
         if (respuesta.isPresent()) {
             try {
-                Publicacion publicacion = respuesta.get();
+                MicroEmprendimiento microEm = respuesta.get();
                 if (!imagenes.isEmpty()) {
                     List<String> urls = new ArrayList<>();
                     for (MultipartFile imagen : imagenes) {
@@ -164,12 +168,12 @@ public class cargaImagenImpl implements cargaImagenService {
                         nuevasImagenes.add(nuevaImagen);
                     }
                     imagenRepositorio.saveAll(nuevasImagenes);
-                    publicacion.setImagenes(nuevasImagenes);
-                    publicacionRepositorio.save(publicacion);
+                    microEm.setImagenes(nuevasImagenes);
+                    microEmprendimientoRepositorio.save(microEm);
 
                     return ResponseEntity.ok(Map.of(
                             "message", "Imágenes cargadas exitosamente",
-                            "publicacion", publicacion));
+                            "publicacion", microEm));
                 }
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
@@ -179,6 +183,54 @@ public class cargaImagenImpl implements cargaImagenService {
         return ResponseEntity.notFound().build();
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
+    @Transactional
+    public ResponseEntity<?> modificarImagenMicroemprendimiento(@RequestParam Long id, @RequestParam("imagenes") List<MultipartFile> nuevasImagenes) {
+        Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            try {
+                MicroEmprendimiento microEm = respuesta.get();
+                List<Imagen> imagenesExistentes = microEm.getImagenes();
+                List<String> urls = new ArrayList<>();
+
+                if (imagenesExistentes.size() == 3) {
+                    imagenesExistentes.clear();
+                }
+                for (int i = 0; i < nuevasImagenes.size(); i++) {
+                    MultipartFile nuevaImagen = nuevasImagenes.get(i);
+
+                    String imagenId = UUID.randomUUID().toString();
+                    Map<String, Object> respuestaDeCarga = cloudinary.uploader()
+                            .upload(nuevaImagen.getBytes(), Map.of("public_id", imagenId));
+                    String nuevaUrl = respuestaDeCarga.get("url").toString();
+
+                    if (i < imagenesExistentes.size()) {
+                        // La imagen ya existe, mantener la URL existente
+                        Imagen imagenExistente = imagenesExistentes.get(i);
+                        imagenExistente.setCloudinaryUrl(nuevaUrl);
+                        imagenExistente.setDadaDeAlta(true);
+                    } else {
+                        // La imagen es nueva, agregar a la lista de imágenes existentes
+                        Imagen nuevaImagenEntidad = new Imagen();
+                        nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
+                        nuevaImagenEntidad.setDadaDeAlta(true);
+                        imagenesExistentes.add(nuevaImagenEntidad);
+                    }
+                    urls.add(nuevaUrl);
+                }
+                imagenRepositorio.saveAll(imagenesExistentes);
+                microEm.setImagenes(imagenesExistentes);
+                microEmprendimientoRepositorio.save(microEm);
+                List<ImagenDTO> imagenDTOs = convertirAImagenDTO(microEm.getImagenes());
+                return ResponseEntity.ok(Map.of(
+                        "message", "Imágenes modificadas exitosamente",
+                        "imagenes", imagenDTOs));
+            } catch (IOException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @Override
     public List<ImagenDTO> convertirAImagenDTO(List<Imagen> imagenes) {
         List<ImagenDTO> imagenDTOs = new ArrayList<>();

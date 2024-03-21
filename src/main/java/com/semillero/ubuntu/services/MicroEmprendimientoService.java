@@ -47,15 +47,14 @@ public class MicroEmprendimientoService {
             microEmprendimiento.setRubro(microEmprendimiento.getRubro());
             microEmprendimiento.setSubRubro(microEmprendimiento.getSubRubro());
             //microEmprendimiento.setMensajeContacto(microEmprendimiento.getMensajeContacto());
-      //      microEmprendimiento.setImagen(microEmprendimiento.getImagen());
+            //microEmprendimiento.setImagen(microEmprendimiento.getImagen());
             microEmprendimiento.setDeleted(microEmprendimiento.isDeleted());
             microEmprendimiento.setGestionado(microEmprendimiento.isGestionado());
 
             microEmprendimientoRepository.save(microEmprendimiento);
 
         }
-
-        }
+    }
 
     public void EliminarMicroEmprendimiento(Long id)throws ExceptionCreados{
 

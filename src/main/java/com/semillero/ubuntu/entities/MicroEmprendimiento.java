@@ -1,5 +1,6 @@
 package com.semillero.ubuntu.entities;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,9 @@ public class MicroEmprendimiento {
     public void addContactos(Contacto contacto) {
         this.contactos.add(contacto);
     }
+    @OneToMany()
+    @Size(min = 1, max = 3)
+    private List<Imagen> imagenes;
 
 
 }

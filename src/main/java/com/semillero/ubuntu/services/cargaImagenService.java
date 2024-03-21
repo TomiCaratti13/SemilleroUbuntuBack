@@ -14,7 +14,8 @@ public interface cargaImagenService {
     ResponseEntity<?> cargarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) throws ExceptionCreados;
 
     ResponseEntity<?> modificarImagenPublicacion(Long id,@RequestParam("imagenes") List<MultipartFile> nuevasImagenes) throws ExceptionCreados;
-
+    ResponseEntity<?> modificarImagenMicroemprendimiento(Long id, @RequestParam("imagenes") List<MultipartFile> nuevasImagenes);
+    ResponseEntity<?> cargarImagenMicroemprendimiento(@RequestParam Long id,@RequestParam("imagenes") List<MultipartFile> imagenes);
     ResponseEntity<?> darDeAltaODeBajaImagen(Long imagenId) throws ExceptionCreados;
     List<ImagenDTO> convertirAImagenDTO(List<Imagen> imagenes);
 }
