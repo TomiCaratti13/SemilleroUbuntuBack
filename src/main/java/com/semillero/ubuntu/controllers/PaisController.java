@@ -4,6 +4,7 @@ import com.semillero.ubuntu.entities.Pais;
 import com.semillero.ubuntu.entities.Provincia;
 import com.semillero.ubuntu.exceptions.ResourceNotFoundException;
 import com.semillero.ubuntu.services.PaisService;
+import com.semillero.ubuntu.services.ProvinciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 // http://localhost:8080/api/ubuntu
-@RequestMapping("api/ubuntu")
+@RequestMapping("/api/ubuntu")
 public class PaisController {
 
     @Autowired
     private PaisService paisService;
+    @Autowired
+    private ProvinciaService provinciaService;
 
     @GetMapping("/paises")
     public ResponseEntity<List<Pais>> obtenerPaises() {
@@ -43,6 +47,8 @@ public class PaisController {
 
     @PostMapping("/paises")
     public void agregarPais(@RequestBody Pais pais) {
+        List<Provincia> provincias =pais.getProvincias().stream().map(p -> provinciaService.guardarProvincia(p)).collect(Collectors.toList());
+        pais.setProvincias(provincias);
         this.paisService.guardarPais(pais);
     }
 

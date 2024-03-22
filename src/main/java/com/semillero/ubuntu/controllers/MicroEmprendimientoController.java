@@ -1,15 +1,12 @@
 package com.semillero.ubuntu.controllers;
 
 
-import com.semillero.ubuntu.dtos.MicroEmprendimientoRequest;
+import com.semillero.ubuntu.dtos.MicroEmprendimientoDto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
-import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/microEmprendimiento")
@@ -19,11 +16,11 @@ public class MicroEmprendimientoController {
     MicroEmprendimientoService microEmprendimientoService;
 
   //  @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/crear")
-    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento) {
+    @PostMapping("/crear/{idPais}/{idProvincia}")
+    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento,@PathVariable Integer idPais,@PathVariable Integer idProvincia) {
 
         try {
-            microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento);
+            microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento,idPais,idProvincia);
 
             return ResponseEntity.noContent().build();
         }catch(Exception e){
@@ -40,7 +37,7 @@ public class MicroEmprendimientoController {
     //  @PreAuthorize("hasRole('ROLE_ADMIN')")
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable Long id, @RequestBody MicroEmprendimientoRequest microEmprendimientoRequest){
+    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable Long id, @RequestBody MicroEmprendimientoDto microEmprendimientoRequest){
 
         try {
             microEmprendimientoService.EditarMicroEmprendimiento(id, microEmprendimientoRequest);

@@ -49,7 +49,7 @@ public class ProvinciaController {
         if (provincia == null)
             throw new ResourceNotFoundException("No se encontro el ID: " + id);
         provincia.setNombre(provinciaNueva.getNombre());
-        provincia.setPais(provinciaNueva.getPais());
+
         this.provinciaService.guardarProvincia(provincia);
         return ResponseEntity.ok(provincia);
     }
