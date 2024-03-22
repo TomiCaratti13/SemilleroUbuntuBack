@@ -48,8 +48,8 @@ public class PublicacionController {
     }
     @PostMapping("/{id}/imagenes")
     public ResponseEntity<?> saveImagenes(@PathVariable("id") Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
-        serviceImagen.cargarImagenPublicacion(id, imagenes);
-        return ResponseEntity.ok().build();
+      ;
+        return serviceImagen.cargarImagenPublicacion(id, imagenes);
     }
 
 
@@ -60,10 +60,9 @@ public class PublicacionController {
         }
         return ResponseEntity.ok(service.update(publicacion, id));
     }
-    @PutMapping("editImagenes/{id}")
-    public ResponseEntity editImagenes( @RequestParam("imagenes") List<MultipartFile> imagenes, @PathVariable Long id) {
-        serviceImagen.modificarImagenPublicacion(id,imagenes);
-        return ResponseEntity.ok().build();
+    @PutMapping("/editImagenes/{id}")
+    public ResponseEntity<?> editImagenes( @RequestParam("imagenes") List<MultipartFile> imagenes, @PathVariable Long id) {
+        return serviceImagen.modificarImagenPublicacion(id,imagenes);
     }
     @PutMapping("/visualizacion/{id}")
     public ResponseEntity<?> aumentarView(@PathVariable Long id) {

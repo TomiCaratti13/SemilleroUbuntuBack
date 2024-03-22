@@ -39,8 +39,8 @@ public class MicroEmprendimientoController {
     public ResponseEntity<?> CrearMicroEmpendimientoImagenes(@PathVariable("id") Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
 
         try {
-            serviceImagen.cargarImagenMicroemprendimiento(id,imagenes);
-            return ResponseEntity.noContent().build();
+
+            return serviceImagen.cargarImagenMicroemprendimiento(id,imagenes);
         }catch(Exception e){
             return ResponseEntity.notFound().build();
         }
@@ -67,7 +67,7 @@ public class MicroEmprendimientoController {
     public ResponseEntity<?> EditarMicroEmpendimientoImagenes(@PathVariable Long id,@RequestParam("imagenes") List<MultipartFile> imagenes){
 
         try {
-            return ResponseEntity.ok(serviceImagen.modificarImagenMicroemprendimiento(id,imagenes));
+            return serviceImagen.modificarImagenMicroemprendimiento(id,imagenes);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }

@@ -61,10 +61,8 @@ public class cargaImagenImpl implements cargaImagenService {
                     imagenRepositorio.saveAll(nuevasImagenes);
                     publicacion.setImagenes(nuevasImagenes);
                     publicacionRepositorio.save(publicacion);
-
-                    return ResponseEntity.ok(Map.of(
-                            "message", "Imágenes cargadas exitosamente",
-                            "publicacion", publicacion));
+                    List<ImagenDTO> imagenDTOs = convertirAImagenDTO(publicacion.getImagenes());
+                    return ResponseEntity.ok(imagenDTOs);
                 }
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
@@ -82,9 +80,9 @@ public class cargaImagenImpl implements cargaImagenService {
                 Publicacion publicacion = respuesta.get();
                 List<Imagen> imagenesExistentes = publicacion.getImagenes();
                 List<String> urls = new ArrayList<>();
-                if (imagenesExistentes.size() == 3) {
-                    imagenesExistentes.clear();
-                }
+
+                imagenesExistentes.clear();
+
 
                 for (int i = 0; i < nuevasImagenes.size(); i++) {
                     MultipartFile nuevaImagen = nuevasImagenes.get(i);
@@ -94,27 +92,17 @@ public class cargaImagenImpl implements cargaImagenService {
                             .upload(nuevaImagen.getBytes(), Map.of("public_id", imagenId));
                     String nuevaUrl = respuestaDeCarga.get("url").toString();
 
-                    if (i < imagenesExistentes.size()) {
-                        // La imagen ya existe, mantener la URL existente
-                        Imagen imagenExistente = imagenesExistentes.get(i);
-                        imagenExistente.setCloudinaryUrl(nuevaUrl);
-                        imagenExistente.setDadaDeAlta(true);
-                    } else {
-                        // La imagen es nueva, agregar a la lista de imágenes existentes
-                        Imagen nuevaImagenEntidad = new Imagen();
-                        nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
-                        nuevaImagenEntidad.setDadaDeAlta(true);
-                        imagenesExistentes.add(nuevaImagenEntidad);
-                    }
+                    Imagen nuevaImagenEntidad = new Imagen();
+                    nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
+                    nuevaImagenEntidad.setDadaDeAlta(true);
+                    imagenesExistentes.add(nuevaImagenEntidad);
                     urls.add(nuevaUrl);
                 }
                 imagenRepositorio.saveAll(imagenesExistentes);
                 publicacion.setImagenes(imagenesExistentes);
                 publicacionRepositorio.save(publicacion);
                 List<ImagenDTO> imagenDTOs = convertirAImagenDTO(publicacion.getImagenes());
-                return ResponseEntity.ok(Map.of(
-                        "message", "Imágenes modificadas exitosamente",
-                        "imagenes", imagenDTOs));
+                return ResponseEntity.ok(imagenDTOs);
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
             }
@@ -152,6 +140,7 @@ public class cargaImagenImpl implements cargaImagenService {
                 MicroEmprendimiento microEm = respuesta.get();
                 if (!imagenes.isEmpty()) {
                     List<String> urls = new ArrayList<>();
+
                     for (MultipartFile imagen : imagenes) {
                         String imagenId = UUID.randomUUID().toString();
                         Map<String, Object> respuestaDeCarga = cloudinary.uploader()
@@ -170,10 +159,8 @@ public class cargaImagenImpl implements cargaImagenService {
                     imagenRepositorio.saveAll(nuevasImagenes);
                     microEm.setImagenes(nuevasImagenes);
                     microEmprendimientoRepositorio.save(microEm);
-
-                    return ResponseEntity.ok(Map.of(
-                            "message", "Imágenes cargadas exitosamente",
-                            "publicacion", microEm));
+                    List<ImagenDTO> imagenDTOS = convertirAImagenDTO(microEm.getImagenes());
+                    return ResponseEntity.ok(imagenDTOS);
                 }
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
@@ -192,9 +179,9 @@ public class cargaImagenImpl implements cargaImagenService {
                 List<Imagen> imagenesExistentes = microEm.getImagenes();
                 List<String> urls = new ArrayList<>();
 
-                if (imagenesExistentes.size() == 3) {
-                    imagenesExistentes.clear();
-                }
+
+                imagenesExistentes.clear();
+
                 for (int i = 0; i < nuevasImagenes.size(); i++) {
                     MultipartFile nuevaImagen = nuevasImagenes.get(i);
 
@@ -203,27 +190,18 @@ public class cargaImagenImpl implements cargaImagenService {
                             .upload(nuevaImagen.getBytes(), Map.of("public_id", imagenId));
                     String nuevaUrl = respuestaDeCarga.get("url").toString();
 
-                    if (i < imagenesExistentes.size()) {
-                        // La imagen ya existe, mantener la URL existente
-                        Imagen imagenExistente = imagenesExistentes.get(i);
-                        imagenExistente.setCloudinaryUrl(nuevaUrl);
-                        imagenExistente.setDadaDeAlta(true);
-                    } else {
-                        // La imagen es nueva, agregar a la lista de imágenes existentes
-                        Imagen nuevaImagenEntidad = new Imagen();
-                        nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
-                        nuevaImagenEntidad.setDadaDeAlta(true);
-                        imagenesExistentes.add(nuevaImagenEntidad);
-                    }
+
+                    Imagen nuevaImagenEntidad = new Imagen();
+                    nuevaImagenEntidad.setCloudinaryUrl(nuevaUrl);
+                    nuevaImagenEntidad.setDadaDeAlta(true);
+                    imagenesExistentes.add(nuevaImagenEntidad);
                     urls.add(nuevaUrl);
                 }
                 imagenRepositorio.saveAll(imagenesExistentes);
                 microEm.setImagenes(imagenesExistentes);
                 microEmprendimientoRepositorio.save(microEm);
                 List<ImagenDTO> imagenDTOs = convertirAImagenDTO(microEm.getImagenes());
-                return ResponseEntity.ok(Map.of(
-                        "message", "Imágenes modificadas exitosamente",
-                        "imagenes", imagenDTOs));
+                return ResponseEntity.ok(imagenDTOs);
             } catch (IOException e) {
                 return ResponseEntity.badRequest().build();
             }
