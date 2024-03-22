@@ -31,4 +31,5 @@ public interface MicroEmprendimientoService {
     public void ocultarMicroEmprendimiento(Long id);
 
 
+
 }
