@@ -24,6 +24,7 @@ public class DtoMapperContacto {
         contactoDto.setDescripcion(contacto.getDescripcion());
         contactoDto.setUsuarioSolicitante(contacto.getUsuarioSolicitante());
         contactoDto.setMicroemprendimiento(contacto.getMicroEmprendimiento().getNombre());
+        contactoDto.setGestionado(contacto.isGestionado());
         return contactoDto;
     }
 }

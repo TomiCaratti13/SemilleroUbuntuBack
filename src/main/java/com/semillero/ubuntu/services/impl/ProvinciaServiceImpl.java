@@ -27,8 +27,8 @@ public class ProvinciaServiceImpl implements ProvinciaService {
 
     @Override
     @Transactional
-    public void guardarProvincia(Provincia provincia) {
-        provinciaRepositorio.save(provincia);
+    public Provincia guardarProvincia(Provincia provincia) {
+       return  provinciaRepositorio.save(provincia);
     }
 
     @Override

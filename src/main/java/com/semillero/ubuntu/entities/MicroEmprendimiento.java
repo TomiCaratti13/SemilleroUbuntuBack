@@ -16,11 +16,15 @@ public class MicroEmprendimiento {
     private String nombre;
     private String descripcion;
     private String masInformacion;
-    private String pais;
-    private String provincia;
+    @ManyToOne
+    private Pais pais;
+    @ManyToOne
+    private Provincia provincia;
     private String ciudad;
-    private String rubro;
+    @ManyToOne
+    private Rubro rubro;
     private String subRubro;
+
     private boolean deleted;
     private boolean gestionado;
     private String mensajeContacto;

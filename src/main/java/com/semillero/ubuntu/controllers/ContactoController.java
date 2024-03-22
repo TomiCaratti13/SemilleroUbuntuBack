@@ -27,10 +27,16 @@ public class ContactoController {
         return service.save(contacto,idMicroemprendiminto);
     }
 
+    @PutMapping("/gestionar/{id}")
+    public ResponseEntity<?> gestionar(@PathVariable Long id){
+        return service.gestionar(id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
         return service.findById(id);
     }
+
 
     private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
