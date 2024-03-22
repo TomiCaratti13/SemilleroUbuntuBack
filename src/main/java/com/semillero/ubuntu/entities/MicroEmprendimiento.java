@@ -26,9 +26,10 @@ public class MicroEmprendimiento {
     @ManyToOne
     private Provincia provincia;
     private String ciudad;
-    private String rubro;
     @ManyToOne
-    private Rubro subRubro;
+    private Rubro rubro;
+    private String subRubro;
+
     private boolean deleted;
     private boolean gestionado;
     //@OneToOne

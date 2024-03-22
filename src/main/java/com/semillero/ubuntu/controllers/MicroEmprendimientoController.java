@@ -16,11 +16,11 @@ public class MicroEmprendimientoController {
     MicroEmprendimientoService microEmprendimientoService;
 
   //  @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/crear")
-    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento) {
+    @PostMapping("/crear/{idPais}/{idProvincia}")
+    public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento,@PathVariable Integer idPais,@PathVariable Integer idProvincia) {
 
         try {
-            microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento);
+            microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento,idPais,idProvincia);
 
             return ResponseEntity.noContent().build();
         }catch(Exception e){

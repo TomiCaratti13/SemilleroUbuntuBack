@@ -5,6 +5,7 @@ import com.semillero.ubuntu.entities.Contacto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.repositories.ContactoRepository;
+import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
 import com.semillero.ubuntu.services.ContactoService;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
@@ -23,11 +24,11 @@ public class ContactoServiceImpl implements ContactoService {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
-    private MicroEmprendimientoService microEmprendimientoService;
+    private MicroEmprendimientoRepository microEmprendimientoRepository;
 
     @Override
     public ResponseEntity<?> save(Contacto contacto, Long idMicroemprendimiento) {
-        Optional<MicroEmprendimiento> o = microEmprendimientoService.findById(idMicroemprendimiento);
+        Optional<MicroEmprendimiento> o = microEmprendimientoRepository.findById(idMicroemprendimiento);
         if (o.isPresent()) {
             MicroEmprendimiento emprendimiento = o.get();
             contacto.setMicroEmprendimiento(emprendimiento);
@@ -35,7 +36,7 @@ public class ContactoServiceImpl implements ContactoService {
 
             Contacto contactoDb = repository.save(contacto);
             emprendimiento.addContactos(contactoDb);
-            microEmprendimientoService.CrearMicroEmprendimiento(emprendimiento);
+            microEmprendimientoRepository.save(emprendimiento);
             return ResponseEntity.ok().build();
         }
 
