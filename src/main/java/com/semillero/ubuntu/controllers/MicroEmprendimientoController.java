@@ -26,7 +26,13 @@ public class MicroEmprendimientoController {
     @PostMapping("/crear/{idPais}/{idProvincia}")
     public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento,@PathVariable Integer idPais,@PathVariable Integer idProvincia) {
 
+
+
         try {
+
+            microEmprendimiento.setFechaCreacionNow();
+
+
 
             microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento,idPais,idProvincia);
 

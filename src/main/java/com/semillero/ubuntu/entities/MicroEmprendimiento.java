@@ -1,8 +1,16 @@
 package com.semillero.ubuntu.entities;
+
+
+
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.time.LocalDate;
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
@@ -25,6 +33,8 @@ public class MicroEmprendimiento {
     private Rubro rubro;
     private String subRubro;
 
+    private LocalDate fechaCreacion;
+
     private boolean deleted;
     private boolean gestionado;
     private String mensajeContacto;
@@ -38,4 +48,7 @@ public class MicroEmprendimiento {
     private List<Imagen> imagenes;
 
 
+    public void setFechaCreacionNow() {
+        this.fechaCreacion = LocalDate.now();
+    }
 }
