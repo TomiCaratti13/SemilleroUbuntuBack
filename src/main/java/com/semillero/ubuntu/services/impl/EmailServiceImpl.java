@@ -36,9 +36,10 @@ public class EmailServiceImpl implements EmailService {
 
             SimpleMailMessage message = new SimpleMailMessage();
 
-            String mail= "Estimado usuario, Es un placer para nosotros informarle sobre los nuevos microemprendimientos. " +
-                    "Esta semana se han agregado los siguientes microemprendimientos " + recopilarNuevosMicroemprendimientos() + "" +
-                    ". Lo esperamos en nuestro sitio web por si quiere obtener mayor informacion. Muchas gracias." +
+            String mail= "Estimado usuario,\n\nEs un placer para nosotros informarle sobre los nuevos microemprendimientos. " +
+        "           Esta semana hemos agregado los siguientes microemprendimientos:\n" +
+                    recopilarNuevosMicroemprendimientos() +
+                    "\n\nLo esperamos en nuestro sitio web si desea obtener más información. \n\nMuchas gracias,\n" +
                     "EQUIPO UBUNTU";
 
             message.setFrom("semilleroubuntu@gmail.com");

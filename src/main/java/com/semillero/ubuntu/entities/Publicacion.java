@@ -3,6 +3,7 @@ package com.semillero.ubuntu.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +17,6 @@ public class Publicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull(message = "titulo es un campo obligatorio")
     private String titulo;
     @NotNull(message = "titulo es un campo obligatorio")
@@ -26,7 +26,8 @@ public class Publicacion {
     private Date fechaCreacion;
     private Integer visualizaciones;
     private boolean deleted;
-//    @OneToMany
-//    private List<Imagen> imagenes;
+    @OneToMany()
+    @Size(min = 1, max = 3)
+    private List<Imagen> imagenes;
 
 }

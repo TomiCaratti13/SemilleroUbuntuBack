@@ -2,8 +2,12 @@ package com.semillero.ubuntu.services.impl;
 
 import com.semillero.ubuntu.dtos.MicroEmprendimientoDto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
+import com.semillero.ubuntu.entities.Pais;
+import com.semillero.ubuntu.entities.Provincia;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
+import com.semillero.ubuntu.repositories.PaisRepositorio;
+import com.semillero.ubuntu.repositories.ProvinciaRepositorio;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +23,23 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Autowired
     private MicroEmprendimientoRepository microEmprendimientoRepository;
+    @Autowired
+    private PaisRepositorio paisRepositorio;
+    @Autowired
+    private ProvinciaRepositorio provinciaRepositorio;
 
     @Override
     @Transactional
-    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento) {
+    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) {
+        Optional<Pais> oP = paisRepositorio.findById(idPais);
+        Optional<Provincia> oProv = provinciaRepositorio.findById(idProvincia);
+        if(oP.isPresent() && oP.isPresent()){
+            microEmprendimiento.setPais(oP.get());
+            microEmprendimiento.setProvincia(oProv.get());
+        }
         microEmprendimientoRepository.save(microEmprendimiento);
     }
+
     @Override
     public Optional<MicroEmprendimiento> findById(Long id) {
         return Optional.empty();
@@ -32,11 +47,11 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Override
     @Transactional
-    public void EditarMicroEmprendimiento(Long id, MicroEmprendimientoDto microEmprendimientoRequest){
+    public void EditarMicroEmprendimiento(Long id, MicroEmprendimientoDto microEmprendimientoRequest) {
 
         Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
 
-        if(respuesta.isPresent()){
+        if (respuesta.isPresent()) {
 
             MicroEmprendimiento microEmprendimiento = respuesta.get();
 
@@ -61,11 +76,11 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
     }
 
     @Override
-    public void EliminarMicroEmprendimiento(Long id)throws ExceptionCreados{
+    public void EliminarMicroEmprendimiento(Long id) throws ExceptionCreados {
 
         Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
 
-        if(respuesta.isPresent()){
+        if (respuesta.isPresent()) {
 
             MicroEmprendimiento microEmprendimiento = respuesta.get();
             microEmprendimiento.setDeleted(true);
@@ -74,31 +89,33 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
         }
 
     }
+
     @Override
-    public List<MicroEmprendimientoDto> ListarMicroEmprendimientos()throws ExceptionCreados{
+    public List<MicroEmprendimientoDto> ListarMicroEmprendimientos() throws ExceptionCreados {
 
         List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findAll();
-        if(respuesta.isEmpty()){
+        if (respuesta.isEmpty()) {
 
             throw new ExceptionCreados("No se encontraron microemprendimientos");
 
-        }else {
+        } else {
 
             return respuesta.stream().map(microEmprendimiento -> convertirADTO(microEmprendimiento)).collect(Collectors.toList());
 
         }
 
     }
+
     @Override
-    public List<MicroEmprendimientoDto> buscarPorNombre(String nombre)throws ExceptionCreados{
+    public List<MicroEmprendimientoDto> buscarPorNombre(String nombre) throws ExceptionCreados {
 
         List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.buscarPorNombre(nombre);
 
-        if(respuesta.isEmpty()) {
+        if (respuesta.isEmpty()) {
 
             throw new ExceptionCreados("No se encontraron microemprendimientos");
 
-        }else{
+        } else {
 
             return respuesta.stream().map(microEmprendimiento -> convertirADTO(microEmprendimiento)).collect(Collectors.toList());
 
@@ -116,7 +133,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
         }
     }
 
-    public MicroEmprendimientoDto convertirADTO(MicroEmprendimiento microEmprendimiento){
+    public MicroEmprendimientoDto convertirADTO(MicroEmprendimiento microEmprendimiento) {
 
         MicroEmprendimientoDto dto = new MicroEmprendimientoDto();
 
@@ -124,14 +141,18 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
         dto.setNombre(microEmprendimiento.getNombre());
         dto.setDescripcion(microEmprendimiento.getDescripcion());
         dto.setMasInformacion(microEmprendimiento.getMasInformacion());
-        //dto.setPais
-        //dto.setProvincia();
+        if (microEmprendimiento.getPais() != null) {
+            dto.setPais(microEmprendimiento.getPais().getNombre());
+        }
+        if (microEmprendimiento.getProvincia() != null) {
+            dto.setProvincia(microEmprendimiento.getProvincia().getNombre());
+        }
         dto.setCiudad(microEmprendimiento.getCiudad());
-        //dto.setRubro(microEmprendimiento.getRubro());
+        if (microEmprendimiento.getRubro() != null) {
+            dto.setRubro(microEmprendimiento.getRubro().getNombre());
+        }
         dto.setSubRubro(microEmprendimiento.getSubRubro());
-        //dto.setMensajeContacto(microEmprendimiento.getContactos());
 
         return dto;
-
-            }
+    }
 }

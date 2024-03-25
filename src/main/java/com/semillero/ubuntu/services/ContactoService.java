@@ -7,5 +7,6 @@ public interface ContactoService {
     ResponseEntity<?>save(Contacto contacto,Long idMicroemprendimiento);
     ResponseEntity<?>findAll();
     ResponseEntity<?> findById(Long id);
+    ResponseEntity<?> gestionar(Long id);
     ResponseEntity<?> deleted(Long id);
 }

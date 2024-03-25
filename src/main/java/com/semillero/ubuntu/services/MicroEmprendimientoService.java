@@ -14,7 +14,7 @@ public interface MicroEmprendimientoService {
 
 
     @Transactional
-    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento) ;
+    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) ;
 
     public Optional<MicroEmprendimiento> findById(Long id);
 
@@ -29,6 +29,7 @@ public interface MicroEmprendimientoService {
     public List<MicroEmprendimientoDto> buscarPorNombre(String nombre)throws ExceptionCreados;
 
     public void ocultarMicroEmprendimiento(Long id);
+
 
 
 }
