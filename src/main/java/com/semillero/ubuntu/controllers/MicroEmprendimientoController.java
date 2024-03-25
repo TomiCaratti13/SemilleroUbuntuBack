@@ -19,7 +19,10 @@ public class MicroEmprendimientoController {
     @PostMapping("/crear")
     public ResponseEntity<?> CrearMicroEmpendimiento(@RequestBody MicroEmprendimiento microEmprendimiento) {
 
+
+
         try {
+            microEmprendimiento.setFechaCreacionNow();
             microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento);
 
             return ResponseEntity.noContent().build();

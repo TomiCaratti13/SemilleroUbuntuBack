@@ -1,13 +1,18 @@
 package com.semillero.ubuntu.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,6 +31,7 @@ public class MicroEmprendimiento {
     private String ciudad;
     private String rubro;
     private String subRubro;
+    private LocalDate fechaCreacion;
     private boolean deleted;
     private boolean gestionado;
     //@OneToOne
@@ -37,4 +43,7 @@ public class MicroEmprendimiento {
         this.contactos.add(contacto);
     }
 
+    public void setFechaCreacionNow() {
+        this.fechaCreacion = LocalDate.now();
+    }
 }
