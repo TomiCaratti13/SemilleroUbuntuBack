@@ -9,7 +9,7 @@ public interface ProvinciaService {
 
     Provincia buscarProvinciaPorId(Integer id);
 
-    void guardarProvincia(Provincia provincia);
+    Provincia guardarProvincia(Provincia provincia);
 
     void eliminarProvinciaPorId(Integer id);
 }

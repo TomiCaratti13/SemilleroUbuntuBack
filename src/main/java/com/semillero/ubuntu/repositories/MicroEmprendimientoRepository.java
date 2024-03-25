@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -13,4 +14,7 @@ public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmpren
 
     @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE %:nombre%")
     public List<MicroEmprendimiento> buscarPorNombre(@Param("nombre") String nombre);
+
+    @Query("SELECT m FROM MicroEmprendimiento m WHERE m.fechaCreacion BETWEEN :fechaInicio AND :fechaFin")
+    List<MicroEmprendimiento> buscarPorRangoDeFecha(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 }

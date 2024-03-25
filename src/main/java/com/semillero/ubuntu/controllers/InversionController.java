@@ -10,15 +10,4 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/inversiones")
 public class InversionController {
 
-    @GetMapping("/saveInversion")
-    public ResponseEntity<?> saveInversion(@RequestBody Inversiones inversiones){
-        try{
-
-        }catch
-    }
-
-
-    }
-
-
 }

@@ -1,45 +1,86 @@
 package com.semillero.ubuntu.services.impl;
+
+import com.semillero.ubuntu.dtos.UsuarioDTO;
 import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.enums.Rol;
+import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
-import com.semillero.ubuntu.services.UsuarioInterfaz;
+import com.semillero.ubuntu.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
-public class UsuarioServiceImpl implements UsuarioInterfaz {
+public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
-    private UsuarioRepositorio usuarioRepository;
+    private UsuarioRepositorio usuarioRepositorio;
 
     @Override
     @Transactional
-    public Usuario crearUsuario(Usuario usuario) {
-        usuario.setRol(Rol.ADMINISTRADORES);
+    public ResponseEntity<?> crearUsuario(Usuario usuario) {
+        usuario.setRole(Rol.ADMIN);
         usuario.setDeleted(false);
-        return usuarioRepository.save(usuario);
+        usuarioRepositorio.save(usuario);
+        UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
+        return ResponseEntity.ok(usuarioDTO);
     }
 
     @Override
     @Transactional
-    public Usuario modificarUsuario(Long id, String nombre, String apellido, String email, String password, String telefono, Rol rol) {
-        Usuario usuario = usuarioRepository.findById(String.valueOf(id)).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setEmail(email);
-        usuario.setPassword(password);
-        usuario.setTelefono(telefono);
-        usuario.setRol(rol);
-        usuario.setDeleted(false);
-        return usuarioRepository.save(usuario);
+    public ResponseEntity<?> modificarUsuario(Long id, String nombre, String apellido, String email, String password, String telefono, Rol rol) throws ExceptionCreados {
+        try {
+
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            if (respuesta.isPresent()) {
+                Usuario usuario = respuesta.get();
+                usuario.setNombre(nombre);
+                usuario.setApellido(apellido);
+                usuario.setEmail(email);
+                usuario.setPassword(password);
+                usuario.setTelefono(telefono);
+                usuario.setRole(rol);
+                usuario.setDeleted(false);
+                usuarioRepositorio.save(usuario);
+                UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
+                return ResponseEntity.ok(usuarioDTO);
+            }
+        } catch (Exception e) {
+            throw new ExceptionCreados("Usuario no encontrado" + e.getMessage());
+        }
+        return ResponseEntity.notFound().build();
     }
+
 
     @Override
     @Transactional
-    public void desactivarUsuario(Long id) {
-        Usuario usuario = usuarioRepository.findById(String.valueOf(id)).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        usuario.setDeleted(true);
-        usuarioRepository.save(usuario);
+    public void desactivarUsuario(Long id) throws ExceptionCreados {
+        try {
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            if (respuesta.isPresent()) {
+                Usuario usuario = respuesta.get();
+                usuario.setDeleted(true);
+                usuarioRepositorio.save(usuario);
+            }
+        } catch (Exception e) {
+            throw new ExceptionCreados("Usuario no encontrado" + e.getMessage());
+        }
     }
+    private UsuarioDTO convertirUsuarioAUsuarioDTO(Usuario usuario) {
+        if (usuario == null) {
+            return null; // or throw an exception, depending on your requirements
+        }
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNombre(usuario.getNombre());
+        usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setEmail(usuario.getEmail());
+        usuarioDTO.setTelefono(usuario.getTelefono());
+        usuarioDTO.setRol(usuario.getRole());
+        // Set other necessary fields
+        return usuarioDTO;
+    }
+
 }

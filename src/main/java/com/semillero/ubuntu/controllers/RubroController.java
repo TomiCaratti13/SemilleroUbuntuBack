@@ -1,7 +1,7 @@
 package com.semillero.ubuntu.controllers;
 
 import com.semillero.ubuntu.entities.Rubro;
-import com.semillero.ubuntu.services.RubroService;
+import com.semillero.ubuntu.services.impl.RubroServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class RubroController {
 
     @Autowired
-    RubroService rubroService;
+    RubroServiceImpl rubroService;
 
     @PostMapping("/crearRubro")
     public ResponseEntity<?> crear( @RequestBody Rubro rubro) {

@@ -1,12 +1,10 @@
 package com.semillero.ubuntu.repositories;
 
-
-import com.semillero.ubuntu.entities.Rubro;
+import com.semillero.ubuntu.entities.Imagen;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RubroRepository extends JpaRepository<Rubro, Long> {
-
-
+public interface ImagenRepositorio extends JpaRepository<Imagen,Long> {
+    Imagen findById(long id);
 }
