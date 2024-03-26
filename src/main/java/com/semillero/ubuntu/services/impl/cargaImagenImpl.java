@@ -5,9 +5,11 @@ import com.semillero.ubuntu.dtos.ImagenDTO;
 import com.semillero.ubuntu.entities.Imagen;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.entities.Publicacion;
+import com.semillero.ubuntu.entities.Rubro;
 import com.semillero.ubuntu.repositories.ImagenRepositorio;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
+import com.semillero.ubuntu.repositories.RubroRepository;
 import com.semillero.ubuntu.services.cargaImagenService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ public class cargaImagenImpl implements cargaImagenService {
     private PublicacionRespository publicacionRepositorio;
     @Autowired
     private MicroEmprendimientoRepository microEmprendimientoRepositorio;
+    @Autowired
+    private RubroRepository rubroRepositorio;
     @Autowired
     private Cloudinary cloudinary;
 
@@ -221,7 +225,42 @@ public class cargaImagenImpl implements cargaImagenService {
         }
         return imagenDTOs;
     }
+    @Override
+    public ResponseEntity<?> cargarImagenRubro(@RequestParam Long id, @RequestParam("imagen") MultipartFile imagen) {
 
+        Optional<Rubro> respuesta = rubroRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            try {
+                Rubro rubro = respuesta.get();
+
+                String imagenId = UUID.randomUUID().toString();
+                Map<String, Object> respuestaDeCarga = cloudinary.uploader()
+                        .upload(imagen.getBytes(), Map.of("public_id", imagenId));
+                String nuevaUrl = respuestaDeCarga.get("url").toString();
+
+                Imagen nuevaImagen = new Imagen();
+                nuevaImagen.setCloudinaryUrl(nuevaUrl);
+                nuevaImagen.setDadaDeAlta(true);
+                imagenRepositorio.save(nuevaImagen);
+
+                rubro.setImagen(nuevaImagen);
+                rubroRepositorio.save(rubro);
+
+                ImagenDTO imagenDTO = new ImagenDTO();
+                imagenDTO.setId(nuevaImagen.getId());
+                imagenDTO.setCloudinaryUrl(nuevaImagen.getCloudinaryUrl());
+                imagenDTO.setDadaDeAlta(nuevaImagen.getDadaDeAlta());
+
+
+                return ResponseEntity.ok(imagenDTO);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Error al cargar la imagen: "+e.getMessage());
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Error, no se encontro rubro con ese id");
+        }
+    }
 
 }
 
