@@ -255,10 +255,10 @@ public class cargaImagenImpl implements cargaImagenService {
                 return ResponseEntity.ok(imagenDTO);
             } catch (IOException e) {
                 e.printStackTrace();
-                return ResponseEntity.badRequest().body("Error al cargar la imagen.");
+                return ResponseEntity.badRequest().body("Error al cargar la imagen: "+e.getMessage());
             }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Error, no se encontro rubro con ese id");
         }
     }
 
