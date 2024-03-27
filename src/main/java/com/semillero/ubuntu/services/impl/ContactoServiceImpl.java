@@ -1,5 +1,6 @@
 package com.semillero.ubuntu.services.impl;
 
+import com.semillero.ubuntu.dtos.ContactoDto;
 import com.semillero.ubuntu.dtos.mapper.DtoMapperContacto;
 import com.semillero.ubuntu.entities.Contacto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactoServiceImpl implements ContactoService {
@@ -46,7 +49,8 @@ public class ContactoServiceImpl implements ContactoService {
 
     @Override
     public ResponseEntity<?> findAll() {
-        return null;
+        List<ContactoDto> contactoDtoList = repository.findAll().stream().map(c -> DtoMapperContacto.getInstance().setContacto(c).build()).collect(Collectors.toList());
+        return ResponseEntity.ok(contactoDtoList);
     }
 
     @Override

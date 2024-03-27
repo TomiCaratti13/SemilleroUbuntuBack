@@ -26,7 +26,10 @@ public class ContactoController {
         }
         return service.save(contacto,idMicroemprendiminto);
     }
-
+    @GetMapping("/all")
+    public ResponseEntity<?> findAll(){
+        return service.findAll();
+    }
     @PutMapping("/gestionar/{id}")
     public ResponseEntity<?> gestionar(@PathVariable Long id){
         return service.gestionar(id);
