@@ -11,6 +11,6 @@ import lombok.*;
 public class Cant_Mic_RubroDTO {
 
     private String categoria;
-    private Long sum_micro;
+    private Long cantidad_microEmprendimientos;
 
 }

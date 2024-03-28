@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/inversiones")
 public class InversionController {
 
+
+
+
 }
