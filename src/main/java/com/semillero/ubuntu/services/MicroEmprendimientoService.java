@@ -1,6 +1,7 @@
 package com.semillero.ubuntu.services;
 
 
+import com.semillero.ubuntu.dtos.Cant_Mic_RubroDTO;
 import com.semillero.ubuntu.dtos.MicroEmprendimientoDto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
@@ -30,6 +31,7 @@ public interface MicroEmprendimientoService {
 
     public void ocultarMicroEmprendimiento(Long id);
 
+    public List<Cant_Mic_RubroDTO> obtenerCantidadPorRubro() throws Exception;
 
 
 }

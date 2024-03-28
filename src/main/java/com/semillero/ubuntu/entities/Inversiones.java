@@ -22,11 +22,11 @@ public class Inversiones {
     private Long min_inv;
     @Column(name = "inv_Max", precision = 10, scale = 2)
     private Long max_inv;
-    @Column(name = "inv_min", precision = 10, scale = 2)
+    @Column(name = "tasa_de_retorno", precision = 10, scale = 2)
     private Long tasa_de_retorno;
-    @Column(name = "inv_min", precision = 10, scale = 2)
+    @Column(name = "coutas", precision = 10, scale = 2)
     private Long cuotas;
-    @Column(name = "inv_min", precision = 10, scale = 2)
+    @Column(name = "costo_de_gestion", precision = 10, scale = 2)
     private Long costo_de_gestion;
 
     @Enumerated(EnumType.STRING)

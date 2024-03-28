@@ -133,8 +133,7 @@ public class cargaImagenImpl implements cargaImagenService {
 
         return ResponseEntity.notFound().build();
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //////CRUD PARA MICROEMPRENDIMIENTO
+
     @Transactional        ////CRUD PARA PUBLICACION
 
     public ResponseEntity<?> cargarImagenMicroemprendimiento(@RequestParam Long id,@RequestParam("imagenes") List<MultipartFile> imagenes) {
