@@ -22,6 +22,8 @@ public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmpren
     List<MicroEmprendimiento> buscarPorRangoDeFecha(@Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
     @Query( value = "SELECT r.nombre AS categoria, COUNT(m.id) AS sum_micro " +
-            "FROM micro_emprendimiento m JOIN rubro r ON m.rubro_id = r.id GROUP BY m.rubro_id",nativeQuery = true)
+            "FROM micro_emprendimiento m JOIN rubro r ON m.rubro_id = r.id WHERE MONTH(m.fecha_creacion) = MONTH(CURRENT_DATE) " +
+            "GROUP BY m.rubro_id",nativeQuery = true)
     List<Object[]> obtenerCantidadPorRubro();
+    
 }

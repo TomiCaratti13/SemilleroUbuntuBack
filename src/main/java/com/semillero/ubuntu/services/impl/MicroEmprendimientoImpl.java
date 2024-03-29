@@ -168,9 +168,9 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
             for (Object[] resultado : resultados){
                 String categoria = (String) resultado[0];
-                Long sum_micro = (Long) resultado[1];
+                Long cantidad_micro = (Long) resultado[1];
 
-                Cant_Mic_RubroDTO cantdto = new Cant_Mic_RubroDTO(categoria,sum_micro);
+                Cant_Mic_RubroDTO cantdto = new Cant_Mic_RubroDTO(categoria,cantidad_micro);
                 cantidad.add(cantdto);
             }
             return cantidad;
