@@ -51,8 +51,6 @@ public class RubroController {
 
             try {
 
-
-
                 return ResponseEntity.ok(rubroService.listarRubros());
 
             } catch (Exception e) {
@@ -60,8 +58,6 @@ public class RubroController {
 
                 return ResponseEntity.notFound().build();
             }
-
-
     }
 
 

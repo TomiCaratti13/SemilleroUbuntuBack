@@ -50,6 +50,13 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new CustomAuthenticationSuccessHandler(usuarioRepository))
 
+
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // Define el punto de salida para el logout
+                        .invalidateHttpSession(true) // Invalida la sesión HTTP después del logout
+                        .deleteCookies("JSESSIONID") // Elimina las cookies después del logout
+                        .logoutSuccessUrl("http://localhost:5173/") // URL de redirección después del logout
                 )
                 .addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();

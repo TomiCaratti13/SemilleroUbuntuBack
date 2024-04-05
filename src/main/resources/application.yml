@@ -8,4 +8,4 @@ spring:
             client-secret: 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
             authorization-uri: https://accounts.google.com/o/oauth2/auth
             token-uri: https://oauth2.googleapis.com/token
-#            redirect-uri: http://localhost:5173/Admin
+#           redirect-uri: http://localhost:5173/Admin
