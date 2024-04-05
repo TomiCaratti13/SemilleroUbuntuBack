@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,14 +43,34 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/").permitAll()
-                            .requestMatchers("/publicacion/**").permitAll()
-
+                            .requestMatchers(HttpMethod.POST,"/contacto/{idMicroemprendiminto}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/microEmprendimiento/listar").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/microEmprendimiento/buscarPorNombre/{nombre}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/microEmprendimiento/cantidades_por_rubro").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/contacto/all").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/contacto/{id}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/ubuntu/paises").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/ubuntu/paises/{id}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/ubuntu/paises/{id}/provincias").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/ubuntu/provincias").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/api/ubuntu/provincias/{id}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/publicacion/activas").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/publicacion/{id}").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/publicacion/visualizaciones_publicaciones_total").permitAll()
+                            .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()
+                            .requestMatchers("/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new CustomAuthenticationSuccessHandler(usuarioRepository))
 
+
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // Define el punto de salida para el logout
+                        .invalidateHttpSession(true) // Invalida la sesión HTTP después del logout
+                        .deleteCookies("JSESSIONID") // Elimina las cookies después del logout
+                        .logoutSuccessUrl("http://localhost:5173/") // URL de redirección después del logout
                 )
                 .addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
