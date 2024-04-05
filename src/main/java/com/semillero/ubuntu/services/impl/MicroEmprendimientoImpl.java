@@ -1,5 +1,6 @@
 package com.semillero.ubuntu.services.impl;
 
+import com.semillero.ubuntu.dtos.Cant_Mic_RubroDTO;
 import com.semillero.ubuntu.dtos.MicroEmprendimientoDto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.entities.Pais;
@@ -9,10 +10,12 @@ import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.PaisRepositorio;
 import com.semillero.ubuntu.repositories.ProvinciaRepositorio;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,10 +33,10 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Override
     @Transactional
-    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) {
+    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento, Integer idPais, Integer idProvincia) {
         Optional<Pais> oP = paisRepositorio.findById(idPais);
         Optional<Provincia> oProv = provinciaRepositorio.findById(idProvincia);
-        if(oP.isPresent() && oP.isPresent()){
+        if (oP.isPresent() && oP.isPresent()) {
             microEmprendimiento.setPais(oP.get());
             microEmprendimiento.setProvincia(oProv.get());
         }
@@ -155,4 +158,29 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
         return dto;
     }
+
+
+    public List<Cant_Mic_RubroDTO> obtenerCantidadPorRubro() {
+
+        try {
+            List<Object[]> resultados = microEmprendimientoRepository.obtenerCantidadPorRubro();
+            List<Cant_Mic_RubroDTO> cantidad = new ArrayList<>();
+
+            for (Object[] resultado : resultados){
+                String categoria = (String) resultado[0];
+                Long cantidad_micro = (Long) resultado[1];
+
+                Cant_Mic_RubroDTO cantdto = new Cant_Mic_RubroDTO(categoria,cantidad_micro);
+                cantidad.add(cantdto);
+            }
+            return cantidad;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener la cantidad por Rubro",e);
+        }
+
+    }
+
 }
+
+

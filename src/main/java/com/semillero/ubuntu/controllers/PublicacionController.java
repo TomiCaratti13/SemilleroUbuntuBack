@@ -1,7 +1,9 @@
 package com.semillero.ubuntu.controllers;
 
 
+import com.semillero.ubuntu.dtos.Cant_Mic_RubroDTO;
 import com.semillero.ubuntu.dtos.PublicacionDto;
+import com.semillero.ubuntu.dtos.VisualizacionesDTO;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.services.impl.PublicacionServiceImpl;
 import com.semillero.ubuntu.services.impl.cargaImagenImpl;
@@ -24,6 +26,7 @@ public class PublicacionController {
     private PublicacionServiceImpl service;
     @Autowired
     cargaImagenImpl serviceImagen;
+
     @GetMapping
     public ResponseEntity<?> findAll() {
         return service.findAll();
@@ -46,9 +49,10 @@ public class PublicacionController {
         }
         return ResponseEntity.ok(service.save(publicacion));
     }
+
     @PostMapping("/{id}/imagenes")
     public ResponseEntity<?> saveImagenes(@PathVariable("id") Long id, @RequestParam("imagenes") List<MultipartFile> imagenes) {
-      ;
+        ;
         return serviceImagen.cargarImagenPublicacion(id, imagenes);
     }
 
@@ -60,10 +64,12 @@ public class PublicacionController {
         }
         return ResponseEntity.ok(service.update(publicacion, id));
     }
+
     @PutMapping("/editImagenes/{id}")
-    public ResponseEntity<?> editImagenes( @RequestParam("imagenes") List<MultipartFile> imagenes, @PathVariable Long id) {
-        return serviceImagen.modificarImagenPublicacion(id,imagenes);
+    public ResponseEntity<?> editImagenes(@RequestParam("imagenes") List<MultipartFile> imagenes, @PathVariable Long id) {
+        return serviceImagen.modificarImagenPublicacion(id, imagenes);
     }
+
     @PutMapping("/visualizacion/{id}")
     public ResponseEntity<?> aumentarView(@PathVariable Long id) {
         return service.incrementarVisualizacion(id);
@@ -80,5 +86,23 @@ public class PublicacionController {
             errors.put(e.getField(), e.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @GetMapping("/visualizaciones_publicaciones_total")
+    public ResponseEntity<List<VisualizacionesDTO>> obtenerCantidadesPorRubro() {
+
+        try {
+            List<VisualizacionesDTO> totales_visualizacion = service.obtenerTotalVisualizaciones();
+            return new ResponseEntity<>(totales_visualizacion, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }

@@ -1,6 +1,8 @@
 package com.semillero.ubuntu.services.impl;
 
+import com.semillero.ubuntu.dtos.Cant_Mic_RubroDTO;
 import com.semillero.ubuntu.dtos.PublicacionDto;
+import com.semillero.ubuntu.dtos.VisualizacionesDTO;
 import com.semillero.ubuntu.dtos.mapper.DtoMapperPublicacion;
 import com.semillero.ubuntu.entities.Publicacion;
 import com.semillero.ubuntu.repositories.PublicacionRespository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -106,5 +109,29 @@ public class PublicacionServiceImpl implements PublicacionService {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public List<VisualizacionesDTO> obtenerTotalVisualizaciones() {
+
+        try {
+            List<Object[]> resultados = repository.obtenerTotalVisualizaciones();
+            List<VisualizacionesDTO> cantidad = new ArrayList<>();
+
+            for (Object[] resultado : resultados) {
+                String titulo = (String) resultado[0];
+                String descripcion = (String) resultado[1];
+                Date fecha_creacion = (Date) resultado[2];
+                Integer visualizaciones = (Integer) resultado[3];
+
+                VisualizacionesDTO visua_dto = new VisualizacionesDTO(titulo, descripcion, fecha_creacion, visualizaciones);
+                cantidad.add(visua_dto);
+            }
+            return cantidad;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener la cantidad por Rubro", e);
+        }
+
+
     }
 }
