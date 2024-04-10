@@ -28,6 +28,7 @@ public class DtoMapperPublicacion {
         publicacionDto.setDescripcion(publicacion.getDescripcion());
         publicacionDto.setVisualizaciones(publicacion.getVisualizaciones());
         publicacionDto.setFechaCreacion(publicacion.getFechaCreacion());
+        publicacionDto.setImagenes(publicacion.getImagenes());
         return publicacionDto;
     }
 

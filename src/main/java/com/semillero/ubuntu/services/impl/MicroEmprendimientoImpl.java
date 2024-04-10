@@ -155,7 +155,10 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             dto.setRubro(microEmprendimiento.getRubro().getNombre());
         }
         dto.setSubRubro(microEmprendimiento.getSubRubro());
-
+        if (microEmprendimiento.getImagenes() != null) {
+            dto.setImagenes(microEmprendimiento.getImagenes());
+        }
+        dto.setImagenes(microEmprendimiento.getImagenes());
         return dto;
     }
 

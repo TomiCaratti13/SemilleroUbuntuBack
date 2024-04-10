@@ -1,5 +1,7 @@
 package com.semillero.ubuntu.dtos;
 
+import com.semillero.ubuntu.entities.Imagen;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 import java.io.Serializable;
@@ -23,6 +25,8 @@ public class MicroEmprendimientoDto implements Serializable {
     private String rubro;
     private String subRubro;
     private List<String> mensajeContacto;
+    @OneToMany
+    private List<Imagen> imagenes;
 
 
 
