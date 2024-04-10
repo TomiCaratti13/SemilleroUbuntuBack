@@ -33,14 +33,14 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Override
     @Transactional
-    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento, Integer idPais, Integer idProvincia) {
+    public MicroEmprendimiento CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento, Integer idPais, Integer idProvincia) {
         Optional<Pais> oP = paisRepositorio.findById(idPais);
         Optional<Provincia> oProv = provinciaRepositorio.findById(idProvincia);
         if (oP.isPresent() && oP.isPresent()) {
             microEmprendimiento.setPais(oP.get());
             microEmprendimiento.setProvincia(oProv.get());
         }
-        microEmprendimientoRepository.save(microEmprendimiento);
+        return microEmprendimientoRepository.save(microEmprendimiento);
     }
 
     @Override
@@ -159,6 +159,19 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             dto.setImagenes(microEmprendimiento.getImagenes());
         }
         dto.setImagenes(microEmprendimiento.getImagenes());
+
+        if (microEmprendimiento.getPais() != null) {
+            dto.setPaisId(microEmprendimiento.getPais().getId());
+        }
+        dto.setPaisId(microEmprendimiento.getPais().getId());
+        if(microEmprendimiento.getProvincia() != null){
+            dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
+        }
+        dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
+        if(microEmprendimiento.getRubro() != null){
+            dto.setRubroId(microEmprendimiento.getRubro().getId());
+        }
+        dto.setRubroId(microEmprendimiento.getRubro().getId());
         return dto;
     }
 

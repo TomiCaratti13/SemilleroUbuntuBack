@@ -15,7 +15,7 @@ public interface MicroEmprendimientoService {
 
 
     @Transactional
-    public void CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) ;
+    public MicroEmprendimiento CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) ;
 
     public Optional<MicroEmprendimiento> findById(Long id);
 

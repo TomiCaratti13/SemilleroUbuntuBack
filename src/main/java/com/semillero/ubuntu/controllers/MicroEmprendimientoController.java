@@ -38,9 +38,9 @@ public class MicroEmprendimientoController {
             microEmprendimiento.setFechaCreacionNow();
 
 
-            microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento, idPais, idProvincia);
+            MicroEmprendimiento micro = microEmprendimientoService.CrearMicroEmprendimiento(microEmprendimiento, idPais, idProvincia);
 
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(micro.getId());
 
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

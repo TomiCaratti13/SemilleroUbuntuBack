@@ -28,6 +28,8 @@ public class MicroEmprendimientoDto implements Serializable {
     @OneToMany
     private List<Imagen> imagenes;
 
-
+    private Integer paisId;
+    private Integer provinciaId;
+    private Long rubroId;
 
 }
