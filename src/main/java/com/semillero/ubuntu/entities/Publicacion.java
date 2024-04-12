@@ -22,6 +22,7 @@ public class Publicacion {
     private String titulo;
     @NotNull(message = "descripcion es un campo obligatorio")
     @NotBlank
+    @Column(length = 2001)
     private String descripcion;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @JsonFormat(pattern = "dd/MM/yyyy")

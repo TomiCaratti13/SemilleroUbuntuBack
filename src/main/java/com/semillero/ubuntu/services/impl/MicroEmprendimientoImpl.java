@@ -39,6 +39,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
         if (oP.isPresent() && oP.isPresent()) {
             microEmprendimiento.setPais(oP.get());
             microEmprendimiento.setProvincia(oProv.get());
+            microEmprendimiento.setDeleted(false);
         }
         return microEmprendimientoRepository.save(microEmprendimiento);
     }
@@ -96,7 +97,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
     @Override
     public List<MicroEmprendimientoDto> ListarMicroEmprendimientos() throws ExceptionCreados {
 
-        List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findAll();
+        List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findByDeletedFalse();
         if (respuesta.isEmpty()) {
 
             throw new ExceptionCreados("No se encontraron microemprendimientos");
