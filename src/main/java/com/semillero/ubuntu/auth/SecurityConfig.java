@@ -56,6 +56,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET,"/api/ubuntu/provincias/{id}").permitAll()
                             .requestMatchers(HttpMethod.GET,"/publicacion/activas").permitAll()
                             .requestMatchers(HttpMethod.GET,"/publicacion/{id}").permitAll()
+                            .requestMatchers(HttpMethod.PUT,"/publicacion/visualizacion/{id}").permitAll()
                             .requestMatchers(HttpMethod.GET,"/publicacion/visualizaciones_publicaciones_total").permitAll()
                             .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()
                             .requestMatchers("/**").hasRole("ADMIN")
