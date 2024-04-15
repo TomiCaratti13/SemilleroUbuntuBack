@@ -45,11 +45,4 @@ public class RubroServiceImpl implements RubroService {
         }
     }
 
-
-
-
-
-
-
-
 }
