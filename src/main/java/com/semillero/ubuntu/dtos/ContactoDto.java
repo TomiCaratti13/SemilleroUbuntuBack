@@ -14,4 +14,5 @@ public class ContactoDto {
     private Usuario usuarioSolicitante;
     private String microemprendimiento;
     private boolean gestionado;
+
 }

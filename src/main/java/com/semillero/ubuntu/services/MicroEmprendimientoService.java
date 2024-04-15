@@ -16,21 +16,13 @@ public interface MicroEmprendimientoService {
 
     @Transactional
     public MicroEmprendimiento CrearMicroEmprendimiento(MicroEmprendimiento microEmprendimiento,Integer idPais,Integer idProvincia) ;
-
     public Optional<MicroEmprendimiento> findById(Long id);
-
-
     @Transactional
     public void EditarMicroEmprendimiento(Long id, MicroEmprendimientoDto microEmprendimientoRequest);
-
     public void EliminarMicroEmprendimiento(Long id)throws ExceptionCreados;
-
     public List<MicroEmprendimientoDto> ListarMicroEmprendimientos()throws ExceptionCreados;
-
     public List<MicroEmprendimientoDto> buscarPorNombre(String nombre)throws ExceptionCreados;
-
     public void ocultarMicroEmprendimiento(Long id);
-
     public List<Cant_Mic_RubroDTO> obtenerCantidadPorRubro() throws Exception;
 
 
