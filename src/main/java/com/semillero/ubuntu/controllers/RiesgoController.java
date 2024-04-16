@@ -54,4 +54,14 @@ public class RiesgoController {
     }
 
 
+    @GetMapping ("/calculo")
+    public ResponseEntity<?> calculo(@RequestParam Long id, @RequestParam Long monto) {
+        try {
+            return riesgoService.calculo(id, monto);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

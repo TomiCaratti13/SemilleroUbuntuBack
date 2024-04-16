@@ -20,6 +20,7 @@ public class Riesgo {
     private Long inv_maxima;
     @Enumerated(EnumType.STRING)
     private NiveldeRiesgo nombre_riesgo;
-    private Double tasa_riesgo;
+    private Double tasa_retorno;
+    private Double factor_riesgo;
 
 }
