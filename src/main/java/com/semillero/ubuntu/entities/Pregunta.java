@@ -12,6 +12,7 @@ public class Pregunta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Column(length = 1000)
     private String pregunta;
     @OneToOne
     private Respuesta respuesta;

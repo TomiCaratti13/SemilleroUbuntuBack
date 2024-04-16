@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                           .requestMatchers(HttpMethod.POST,"/contacto/{idMicroemprendiminto}").permitAll()
+                           /*.requestMatchers(HttpMethod.POST,"/contacto/{idMicroemprendiminto}").permitAll()
                             .requestMatchers(HttpMethod.GET,"/microEmprendimiento/listar").permitAll()
                             .requestMatchers(HttpMethod.GET,"/microEmprendimiento/buscarPorNombre/{nombre}").permitAll()
                             .requestMatchers(HttpMethod.GET,"/microEmprendimiento/cantidades_por_rubro").permitAll()
@@ -58,8 +58,10 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET,"/publicacion/{id}").permitAll()
                             .requestMatchers(HttpMethod.PUT,"/publicacion/visualizacion/{id}").permitAll()
                             .requestMatchers(HttpMethod.GET,"/publicacion/visualizaciones_publicaciones_total").permitAll()
-                            .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()
-                            .requestMatchers("/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()*/
+                            .requestMatchers("/respuesta/*").permitAll()
+                            .requestMatchers("/pregunta/*").permitAll()
+                           // .requestMatchers("/**").hasRole("ADMIN")
                             //.requestMatchers("/**").permitAll()
                             .anyRequest().authenticated();
                 })
