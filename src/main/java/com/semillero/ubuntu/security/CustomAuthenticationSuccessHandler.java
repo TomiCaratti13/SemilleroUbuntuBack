@@ -43,6 +43,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             usuarioDb.setNombre(name);
             Usuario guardado = repository.save(usuarioDb);
             id = guardado.getId();
+            
         } else {
             id = us.get().getId();
         }
