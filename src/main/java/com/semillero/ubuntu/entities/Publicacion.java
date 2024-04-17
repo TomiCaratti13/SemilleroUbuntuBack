@@ -20,9 +20,9 @@ public class Publicacion {
     private Long id;
     @NotNull(message = "titulo es un campo obligatorio")
     private String titulo;
-    @NotNull(message = "descripcion es un campo obligatorio")
-    @Column(length = 2000)
+
     @NotBlank
+    @Column(length = 2000)
     private String descripcion;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @JsonFormat(pattern = "dd/MM/yyyy")

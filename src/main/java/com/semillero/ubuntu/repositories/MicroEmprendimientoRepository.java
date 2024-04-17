@@ -25,5 +25,6 @@ public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmpren
             "FROM micro_emprendimiento m JOIN rubro r ON m.rubro_id = r.id WHERE MONTH(m.fecha_creacion) = MONTH(CURRENT_DATE) " +
             "GROUP BY m.rubro_id",nativeQuery = true)
     List<Object[]> obtenerCantidadPorRubro();
-    
+
+    List<MicroEmprendimiento>findByDeletedFalse();
 }
