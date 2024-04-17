@@ -51,7 +51,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Override
     @Transactional
-    public void EditarMicroEmprendimiento(Long id,Integer idPais,Integer idProvincia, MicroEmprendimiento microEmprendimientoRequest) {
+    public void EditarMicroEmprendimiento(Long id, Integer idPais, Integer idProvincia, MicroEmprendimiento microEmprendimientoRequest) {
 
         Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
         Optional<Pais> oP = paisRepositorio.findById(idPais);
@@ -70,7 +70,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             microEmprendimiento.setMasInformacion(microEmprendimientoRequest.getMasInformacion());
 
             microEmprendimiento.setCiudad(microEmprendimientoRequest.getCiudad());
-           // microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
+            // microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
             microEmprendimiento.setSubRubro(microEmprendimientoRequest.getSubRubro());
             System.out.println("antes de guardar");
             microEmprendimientoRepository.save(microEmprendimiento);
@@ -159,26 +159,23 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             dto.setRubro(microEmprendimiento.getRubro().getNombre());
         }
         dto.setSubRubro(microEmprendimiento.getSubRubro());
-//        if (microEmprendimiento.getImagenes() != null) {
-//            dto.setImagenes(microEmprendimiento.getImagenes());
-//        }
-//        if(microEmprendimiento.getImagenes() != null){
-//            dto.setImagenes(microEmprendimiento.getImagenes());
-//        }
+        if (microEmprendimiento.getImagenes() != null) {
+            dto.setImagenes(microEmprendimiento.getImagenes());
+        }
+        if (microEmprendimiento.getImagenes() != null) {
+            dto.setImagenes(microEmprendimiento.getImagenes());
+        }
 
 
-//        if (microEmprendimiento.getPais() != null) {
-//            dto.setPaisId(microEmprendimiento.getPais().getId());
-//        }
-//        dto.setPaisId(microEmprendimiento.getPais().getId());
-//        if(microEmprendimiento.getProvincia() != null){
-//            dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
-//        }
-//        dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
-//        if(microEmprendimiento.getRubro() != null){
-//            dto.setRubroId(microEmprendimiento.getRubro().getId());
-//        }
-//        dto.setRubroId(microEmprendimiento.getRubro().getId());
+        if (microEmprendimiento.getPais() != null) {
+            dto.setPaisId(microEmprendimiento.getPais().getId());
+        }
+        if (microEmprendimiento.getProvincia() != null) {
+            dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
+        }
+        if (microEmprendimiento.getRubro() != null) {
+            dto.setRubroId(microEmprendimiento.getRubro().getId());
+        }
         return dto;
     }
 
@@ -189,17 +186,17 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             List<Object[]> resultados = microEmprendimientoRepository.obtenerCantidadPorRubro();
             List<Cant_Mic_RubroDTO> cantidad = new ArrayList<>();
 
-            for (Object[] resultado : resultados){
+            for (Object[] resultado : resultados) {
                 String categoria = (String) resultado[0];
                 Long cantidad_micro = (Long) resultado[1];
 
-                Cant_Mic_RubroDTO cantdto = new Cant_Mic_RubroDTO(categoria,cantidad_micro);
+                Cant_Mic_RubroDTO cantdto = new Cant_Mic_RubroDTO(categoria, cantidad_micro);
                 cantidad.add(cantdto);
             }
             return cantidad;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error al obtener la cantidad por Rubro",e);
+            throw new RuntimeException("Error al obtener la cantidad por Rubro", e);
         }
 
     }
