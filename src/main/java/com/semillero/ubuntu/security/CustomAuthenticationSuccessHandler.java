@@ -34,14 +34,17 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String email = (String) oauth2User.getAttributes().get("email");
         String foto = (String) oauth2User.getAttributes().get("picture");
         String name = (String) oauth2User.getAttributes().get("name");
-
+        Long id;
         Optional<Usuario> us = repository.findByEmail(email);
         if (us.isEmpty()) {
             Usuario usuarioDb = new Usuario();
             usuarioDb.setEmail(email);
             usuarioDb.setRole(Rol.ADMIN);
             usuarioDb.setNombre(name);
-            repository.save(usuarioDb);
+            Usuario guardado = repository.save(usuarioDb);
+            id = guardado.getId();
+        } else {
+            id = us.get().getId();
         }
         boolean isAdmin = true;
 
@@ -50,8 +53,9 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         permisos.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         claims.put("authorities", new ObjectMapper().writeValueAsString(permisos));
         claims.put("foto", foto);
+        claims.put("id", id);
         claims.put("nombre", name);
-        claims.put("isAdmin",true);
+        claims.put("isAdmin", true);
 
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -76,7 +80,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         body.put("token", token);
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-        response.sendRedirect("http://localhost:5173/Admin/"+token);
+        response.sendRedirect("http://localhost:5173/Admin/" + token);
         response.setStatus(200);
         response.setContentType("application/json");
 
