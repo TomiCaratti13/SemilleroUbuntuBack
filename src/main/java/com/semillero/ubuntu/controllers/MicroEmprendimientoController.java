@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping("/microEmprendimiento")
+@CrossOrigin(origins = "*")
 public class MicroEmprendimientoController {
 
     @Autowired
@@ -61,19 +62,10 @@ public class MicroEmprendimientoController {
 
     //  @PreAuthorize("hasRole('ROLE_ADMIN')")
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable Long id, @RequestBody MicroEmprendimientoDto microEmprendimientoRequest) {
-
-        try {
-            microEmprendimientoService.EditarMicroEmprendimiento(id, microEmprendimientoRequest);
-
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e) {
-
-            return ResponseEntity.notFound().build();
-
-        }
+    @PutMapping("/editar/{id}/{idPais}/{idProvincia}")
+    public ResponseEntity<?> EditarMicroEmpendimiento(@PathVariable Long id,@PathVariable Integer idPais,@PathVariable Integer idProvincia, @RequestBody MicroEmprendimiento microEmprendimientoRequest) {
+        microEmprendimientoService.EditarMicroEmprendimiento(id, idPais, idProvincia, microEmprendimientoRequest);
+        return ResponseEntity.noContent().build();
 
     }
 
@@ -109,7 +101,7 @@ public class MicroEmprendimientoController {
     public ResponseEntity<?> ListarMicroEmprendimientos() {
 
         try {
-
+            System.out.println("entre al controlador");
             return ResponseEntity.ok(microEmprendimientoService.ListarMicroEmprendimientos());
 
         } catch (Exception e) {
@@ -143,13 +135,9 @@ public class MicroEmprendimientoController {
 
         try {
             microEmprendimientoService.ocultarMicroEmprendimiento(id);
-
             return ResponseEntity.noContent().build();
-
         } catch (Exception e) {
-
             return ResponseEntity.notFound().build();
-
         }
 
 

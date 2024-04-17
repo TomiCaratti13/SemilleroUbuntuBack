@@ -22,7 +22,9 @@ public class MicroEmprendimiento {
     private Long id;
 
     private String nombre;
+    @Column(length = 300)
     private String descripcion;
+    @Column(length = 300)
     private String masInformacion;
     @ManyToOne
     private Pais pais;

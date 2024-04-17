@@ -21,7 +21,7 @@ public interface MicroEmprendimientoService {
 
 
     @Transactional
-    public void EditarMicroEmprendimiento(Long id, MicroEmprendimientoDto microEmprendimientoRequest);
+    public void EditarMicroEmprendimiento(Long id,Integer idPais,Integer idProvincia, MicroEmprendimiento microEmprendimientoRequest);
 
     public void EliminarMicroEmprendimiento(Long id)throws ExceptionCreados;
 

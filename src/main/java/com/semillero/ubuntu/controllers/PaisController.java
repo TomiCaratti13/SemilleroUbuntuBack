@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 // http://localhost:8080/api/ubuntu
 @RequestMapping("/api/ubuntu")
+@CrossOrigin(origins = "*")
 public class PaisController {
 
     @Autowired

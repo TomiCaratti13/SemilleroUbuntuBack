@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/inversiones")
+@CrossOrigin(origins = "*")
 public class InversionController {
 
 

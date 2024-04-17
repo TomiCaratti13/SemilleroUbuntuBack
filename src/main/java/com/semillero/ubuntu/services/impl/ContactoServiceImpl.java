@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +34,9 @@ public class ContactoServiceImpl implements ContactoService {
     public ResponseEntity<?> save(Contacto contacto, Long idMicroemprendimiento) {
         Optional<MicroEmprendimiento> o = microEmprendimientoRepository.findById(idMicroemprendimiento);
         if (o.isPresent()) {
+
             MicroEmprendimiento emprendimiento = o.get();
+            contacto.setFechaCreacion(new Date());
             contacto.setMicroEmprendimiento(emprendimiento);
             usuarioRepositorio.save(contacto.getUsuarioSolicitante());
 

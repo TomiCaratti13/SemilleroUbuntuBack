@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/rubro")
+@CrossOrigin(origins = "*")
 public class RubroController {
 
     @Autowired

@@ -59,6 +59,8 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET,"/publicacion/visualizaciones_publicaciones_total").permitAll()
                             .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()
                             .requestMatchers("/**").hasRole("ADMIN")*/
+                            .requestMatchers("/respuesta/**").permitAll()
+                            .requestMatchers("/pregunta/**").permitAll()
                             .requestMatchers("/**").permitAll()
                             .anyRequest().authenticated();
                 })
@@ -81,6 +83,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);

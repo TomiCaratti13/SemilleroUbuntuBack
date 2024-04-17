@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/ubuntu")
+@CrossOrigin(origins = "*")
 public class ProvinciaController {
 
     @Autowired

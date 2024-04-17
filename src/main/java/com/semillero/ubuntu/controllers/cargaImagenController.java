@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/imagen")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class cargaImagenController {
 
     private final cargaImagenService cargaImagenService;

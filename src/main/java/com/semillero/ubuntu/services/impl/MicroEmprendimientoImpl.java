@@ -50,30 +50,29 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
 
     @Override
     @Transactional
-    public void EditarMicroEmprendimiento(Long id, MicroEmprendimientoDto microEmprendimientoRequest) {
+    public void EditarMicroEmprendimiento(Long id,Integer idPais,Integer idProvincia, MicroEmprendimiento microEmprendimientoRequest) {
 
         Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
-
+        Optional<Pais> oP = paisRepositorio.findById(idPais);
+        Optional<Provincia> oProv = provinciaRepositorio.findById(idProvincia);
         if (respuesta.isPresent()) {
-
+            System.out.println("micro encontrado");
             MicroEmprendimiento microEmprendimiento = respuesta.get();
 
+            if (oP.isPresent() && oProv.isPresent()) {
+                microEmprendimiento.setPais(oP.get());
+                microEmprendimiento.setProvincia(oProv.get());
+                System.out.println("pais y provincia encontrado");
+            }
             microEmprendimiento.setNombre(microEmprendimientoRequest.getNombre());
-            microEmprendimiento.setDescripcion(microEmprendimiento.getDescripcion());
-            microEmprendimiento.setMasInformacion(microEmprendimiento.getMasInformacion());
-            microEmprendimiento.setPais(microEmprendimiento.getPais());
-            microEmprendimiento.setProvincia(microEmprendimiento.getProvincia());
-            microEmprendimiento.setCiudad(microEmprendimiento.getCiudad());
-            microEmprendimiento.setRubro(microEmprendimiento.getRubro());
-            microEmprendimiento.setSubRubro(microEmprendimiento.getSubRubro());
-            microEmprendimiento.setFechaCreacion(microEmprendimiento.getFechaCreacion());
-            //microEmprendimiento.setMensajeContacto(microEmprendimiento.getMensajeContacto());
-            //      microEmprendimiento.setImagen(microEmprendimiento.getImagen());
-            microEmprendimiento.setDeleted(microEmprendimiento.isDeleted());
-            microEmprendimiento.setGestionado(microEmprendimiento.isGestionado());
+            microEmprendimiento.setDescripcion(microEmprendimientoRequest.getDescripcion());
+            microEmprendimiento.setMasInformacion(microEmprendimientoRequest.getMasInformacion());
 
+            microEmprendimiento.setCiudad(microEmprendimientoRequest.getCiudad());
+           // microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
+            microEmprendimiento.setSubRubro(microEmprendimientoRequest.getSubRubro());
+            System.out.println("antes de guardar");
             microEmprendimientoRepository.save(microEmprendimiento);
-
         }
 
     }
@@ -82,6 +81,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
     public void EliminarMicroEmprendimiento(Long id) throws ExceptionCreados {
 
         Optional<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findById(id);
+
 
         if (respuesta.isPresent()) {
 
@@ -97,13 +97,16 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
     public List<MicroEmprendimientoDto> ListarMicroEmprendimientos() throws ExceptionCreados {
 
         List<MicroEmprendimiento> respuesta = microEmprendimientoRepository.findAll();
+        System.out.println(respuesta);
         if (respuesta.isEmpty()) {
 
             throw new ExceptionCreados("No se encontraron microemprendimientos");
 
         } else {
-
-            return respuesta.stream().map(microEmprendimiento -> convertirADTO(microEmprendimiento)).collect(Collectors.toList());
+            System.out.println(respuesta);
+            System.out.println("estoy a punto de retornar ");
+            List<MicroEmprendimientoDto> dtos = respuesta.stream().map(m -> convertirADTO(m)).collect(Collectors.toList());
+            return dtos;
 
         }
 
@@ -155,23 +158,26 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             dto.setRubro(microEmprendimiento.getRubro().getNombre());
         }
         dto.setSubRubro(microEmprendimiento.getSubRubro());
-        if (microEmprendimiento.getImagenes() != null) {
-            dto.setImagenes(microEmprendimiento.getImagenes());
-        }
-        dto.setImagenes(microEmprendimiento.getImagenes());
+//        if (microEmprendimiento.getImagenes() != null) {
+//            dto.setImagenes(microEmprendimiento.getImagenes());
+//        }
+//        if(microEmprendimiento.getImagenes() != null){
+//            dto.setImagenes(microEmprendimiento.getImagenes());
+//        }
 
-        if (microEmprendimiento.getPais() != null) {
-            dto.setPaisId(microEmprendimiento.getPais().getId());
-        }
-        dto.setPaisId(microEmprendimiento.getPais().getId());
-        if(microEmprendimiento.getProvincia() != null){
-            dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
-        }
-        dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
-        if(microEmprendimiento.getRubro() != null){
-            dto.setRubroId(microEmprendimiento.getRubro().getId());
-        }
-        dto.setRubroId(microEmprendimiento.getRubro().getId());
+
+//        if (microEmprendimiento.getPais() != null) {
+//            dto.setPaisId(microEmprendimiento.getPais().getId());
+//        }
+//        dto.setPaisId(microEmprendimiento.getPais().getId());
+//        if(microEmprendimiento.getProvincia() != null){
+//            dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
+//        }
+//        dto.setProvinciaId(microEmprendimiento.getProvincia().getId());
+//        if(microEmprendimiento.getRubro() != null){
+//            dto.setRubroId(microEmprendimiento.getRubro().getId());
+//        }
+//        dto.setRubroId(microEmprendimiento.getRubro().getId());
         return dto;
     }
 

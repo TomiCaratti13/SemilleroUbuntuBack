@@ -21,6 +21,7 @@ public class Publicacion {
     @NotNull(message = "titulo es un campo obligatorio")
     private String titulo;
     @NotNull(message = "descripcion es un campo obligatorio")
+    @Column(length = 2000)
     @NotBlank
     private String descripcion;
     @DateTimeFormat(pattern = "dd/MM/yyyy")

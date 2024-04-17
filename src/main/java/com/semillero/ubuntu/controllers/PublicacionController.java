@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/publicacion")
+@CrossOrigin(origins = "*")
 public class PublicacionController {
     @Autowired
     private PublicacionServiceImpl service;

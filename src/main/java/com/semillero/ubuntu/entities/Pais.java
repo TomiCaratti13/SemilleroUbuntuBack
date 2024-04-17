@@ -18,8 +18,6 @@ public class Pais {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String Nombre;
-
-
     @OneToMany
     private List<Provincia> provincias;
 
