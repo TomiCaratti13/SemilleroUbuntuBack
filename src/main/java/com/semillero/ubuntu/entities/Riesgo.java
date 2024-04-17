@@ -2,6 +2,7 @@ package com.semillero.ubuntu.entities;
 
 import com.semillero.ubuntu.enums.NiveldeRiesgo;
 import com.semillero.ubuntu.enums.Rol;
+import com.semillero.ubuntu.services.InversionService;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,5 +23,8 @@ public class Riesgo {
     private NiveldeRiesgo nombre_riesgo;
     private Double tasa_retorno;
     private Double factor_riesgo;
+
+    @OneToOne
+    private Inversion inversion;
 
 }

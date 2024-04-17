@@ -15,6 +15,5 @@ public class CalculoDto {
     private Double tasa;
     private Long retorno;
     private Long ganancias;
-    private Long min_inv;
-    private Long max_inv;
+
 }

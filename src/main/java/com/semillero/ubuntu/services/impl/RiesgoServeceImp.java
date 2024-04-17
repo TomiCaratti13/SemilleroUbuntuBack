@@ -71,8 +71,6 @@ public class RiesgoServeceImp implements RiesgoService {
             calculoDto.setRetorno((long) (monto * riesgo.get().getTasa_retorno() *
                     riesgo.get().getFactor_riesgo()));
             calculoDto.setGanancias(calculoDto.getRetorno() - calculoDto.getTotal());
-            calculoDto.setMax_inv(riesgo.get().getInv_maxima());
-            calculoDto.setMin_inv(riesgo.get().getInv_minima());
             return ResponseEntity.ok(calculoDto);
         } else {
             return ResponseEntity.notFound().build();

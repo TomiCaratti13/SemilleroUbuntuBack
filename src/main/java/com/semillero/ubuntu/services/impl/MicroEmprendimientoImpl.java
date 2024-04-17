@@ -10,7 +10,6 @@ import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.PaisRepositorio;
 import com.semillero.ubuntu.repositories.ProvinciaRepositorio;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
