@@ -70,7 +70,7 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             microEmprendimiento.setMasInformacion(microEmprendimientoRequest.getMasInformacion());
 
             microEmprendimiento.setCiudad(microEmprendimientoRequest.getCiudad());
-            // microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
+            microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
             microEmprendimiento.setSubRubro(microEmprendimientoRequest.getSubRubro());
             System.out.println("antes de guardar");
             microEmprendimientoRepository.save(microEmprendimiento);
