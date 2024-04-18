@@ -4,12 +4,11 @@ import com.semillero.ubuntu.dtos.ContactoDto;
 import com.semillero.ubuntu.dtos.mapper.DtoMapperContacto;
 import com.semillero.ubuntu.entities.Contacto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
-import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.repositories.ContactoRepository;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
+
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
 import com.semillero.ubuntu.services.ContactoService;
-import com.semillero.ubuntu.services.MicroEmprendimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class ContactoServiceImpl implements ContactoService {
     private ContactoRepository repository;
 
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private UsuarioRepositorio usuarioRepository;
 
     @Autowired
     private MicroEmprendimientoRepository microEmprendimientoRepository;
@@ -38,7 +37,7 @@ public class ContactoServiceImpl implements ContactoService {
             MicroEmprendimiento emprendimiento = o.get();
             contacto.setFechaCreacion(new Date());
             contacto.setMicroEmprendimiento(emprendimiento);
-            usuarioRepositorio.save(contacto.getUsuarioSolicitante());
+            usuarioRepository.save(contacto.getUsuarioSolicitante());
 
             Contacto contactoDb = repository.save(contacto);
             emprendimiento.addContactos(contactoDb);

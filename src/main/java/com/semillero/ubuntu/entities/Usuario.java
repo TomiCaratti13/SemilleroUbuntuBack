@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Table(name = "usuarios")
 public class Usuario {
@@ -23,4 +25,6 @@ public class Usuario {
     private Rol role;
     private String telefono;
 
+    @OneToMany
+    private List<Inversion> inversiones;
 }

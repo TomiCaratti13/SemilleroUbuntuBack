@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.enums.Rol;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.ServletException;

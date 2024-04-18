@@ -10,7 +10,6 @@ import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 import com.semillero.ubuntu.repositories.PaisRepositorio;
 import com.semillero.ubuntu.repositories.ProvinciaRepositorio;
 import com.semillero.ubuntu.services.MicroEmprendimientoService;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +67,16 @@ public class MicroEmprendimientoImpl implements MicroEmprendimientoService {
             microEmprendimiento.setNombre(microEmprendimientoRequest.getNombre());
             microEmprendimiento.setDescripcion(microEmprendimientoRequest.getDescripcion());
             microEmprendimiento.setMasInformacion(microEmprendimientoRequest.getMasInformacion());
-
+            microEmprendimiento.setPais(microEmprendimiento.getPais());
+            microEmprendimiento.setProvincia(microEmprendimiento.getProvincia());
+            microEmprendimiento.setCiudad(microEmprendimiento.getCiudad());
+            microEmprendimiento.setRubro(microEmprendimiento.getRubro());
+            microEmprendimiento.setSubRubro(microEmprendimiento.getSubRubro());
+            microEmprendimiento.setFechaCreacion(microEmprendimiento.getFechaCreacion());
+            //microEmprendimiento.setMensajeContacto(microEmprendimiento.getMensajeContacto());
+            //microEmprendimiento.setImagen(microEmprendimiento.getImagen());
+            microEmprendimiento.setDeleted(microEmprendimiento.isDeleted());
+            microEmprendimiento.setGestionado(microEmprendimiento.isGestionado());
             microEmprendimiento.setCiudad(microEmprendimientoRequest.getCiudad());
             microEmprendimiento.setRubro(microEmprendimientoRequest.getRubro());
             microEmprendimiento.setSubRubro(microEmprendimientoRequest.getSubRubro());

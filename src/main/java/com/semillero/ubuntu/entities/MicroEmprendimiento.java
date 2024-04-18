@@ -53,4 +53,9 @@ public class MicroEmprendimiento {
     public void setFechaCreacionNow() {
         this.fechaCreacion = LocalDate.now();
     }
+
+    @OneToMany
+    private List<Inversion> inversiones;
+
+
 }

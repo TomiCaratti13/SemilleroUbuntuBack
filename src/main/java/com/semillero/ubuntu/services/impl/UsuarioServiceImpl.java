@@ -5,6 +5,7 @@ import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.enums.Rol;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
+
 import com.semillero.ubuntu.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,14 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    UsuarioRepositorio usuarioRepository;
 
     @Override
     @Transactional
     public ResponseEntity<?> crearUsuario(Usuario usuario) {
         usuario.setRole(Rol.ADMIN);
         usuario.setDeleted(false);
-        usuarioRepositorio.save(usuario);
+        usuarioRepository.save(usuario);
         UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
         return ResponseEntity.ok(usuarioDTO);
     }
@@ -34,7 +35,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public ResponseEntity<?> modificarUsuario(Long id, String nombre, String apellido, String email, String password, String telefono, Rol rol) throws ExceptionCreados {
         try {
 
-            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            Optional<Usuario> respuesta = usuarioRepository.findById(id);
             if (respuesta.isPresent()) {
                 Usuario usuario = respuesta.get();
                 usuario.setNombre(nombre);
@@ -44,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuario.setTelefono(telefono);
                 usuario.setRole(rol);
                 usuario.setDeleted(false);
-                usuarioRepositorio.save(usuario);
+                usuarioRepository.save(usuario);
                 UsuarioDTO usuarioDTO = convertirUsuarioAUsuarioDTO(usuario);
                 return ResponseEntity.ok(usuarioDTO);
             }
@@ -59,11 +60,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void desactivarUsuario(Long id) throws ExceptionCreados {
         try {
-            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            Optional<Usuario> respuesta = usuarioRepository.findById(id);
             if (respuesta.isPresent()) {
                 Usuario usuario = respuesta.get();
                 usuario.setDeleted(true);
-                usuarioRepositorio.save(usuario);
+                usuarioRepository.save(usuario);
             }
         } catch (Exception e) {
             throw new ExceptionCreados("Usuario no encontrado" + e.getMessage());

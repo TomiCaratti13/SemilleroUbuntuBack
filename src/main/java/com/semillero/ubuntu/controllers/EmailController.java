@@ -30,8 +30,6 @@ public class EmailController {
     MicroEmprendimientoService microEmprendimientoService;
 
 
-
-
     @Scheduled(cron = "0 0 0 * * MON")
     @PostMapping("/enviar")
     public ResponseEntity<?> EnviarEmail() {
@@ -49,8 +47,5 @@ public class EmailController {
         }
 
     }
-
-
-
 
 }
