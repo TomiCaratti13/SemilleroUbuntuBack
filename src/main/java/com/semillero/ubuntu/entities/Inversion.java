@@ -1,5 +1,6 @@
 package com.semillero.ubuntu.entities;
 
+import com.semillero.ubuntu.enums.NiveldeRiesgo;
 import jakarta.persistence.*;
 import lombok.Data;
 
