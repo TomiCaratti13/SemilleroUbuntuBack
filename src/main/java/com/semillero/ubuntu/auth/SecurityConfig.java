@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> {
                     authorize
+                            //.requestMatchers("/").permitAll()
                             .requestMatchers(HttpMethod.POST, "/contacto/{idMicroemprendiminto}").permitAll()
                             .requestMatchers(HttpMethod.GET, "/microEmprendimiento/listar").permitAll()
                             .requestMatchers(HttpMethod.GET, "/microEmprendimiento/buscarPorNombre/{nombre}").permitAll()
@@ -63,8 +64,8 @@ public class SecurityConfig {
                             .requestMatchers("/respuesta/*").permitAll()
                             .requestMatchers("/pregunta/*").permitAll()
                             .requestMatchers("/").hasRole("ADMIN")
-                            //.requestMatchers("/").permitAll()
                             .anyRequest().authenticated();
+
 
                 })
 
