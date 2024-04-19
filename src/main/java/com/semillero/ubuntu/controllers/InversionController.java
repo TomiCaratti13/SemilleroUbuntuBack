@@ -1,6 +1,7 @@
 package com.semillero.ubuntu.controllers;
 
 import com.semillero.ubuntu.dtos.CalculoDto;
+import com.semillero.ubuntu.dtos.mapper.InversionDTO;
 import com.semillero.ubuntu.entities.Inversion;
 import com.semillero.ubuntu.services.InversionService;
 import com.semillero.ubuntu.services.UsuarioService;
@@ -25,14 +26,13 @@ public class InversionController {
 
     @PostMapping("/crearInversion")
     public ResponseEntity<?> crearinversion(@RequestBody CalculoDto calculoDto,
-
                                             @RequestParam Long id_user,
                                             @RequestParam Long id_micro,
                                             @RequestParam Long id_riesgo) {
         try {
             Inversion inversion = inversionService.crearInversion(calculoDto,id_riesgo, id_user, id_micro);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(inversion);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
 
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -41,13 +41,19 @@ public class InversionController {
 
     }
 
-    @GetMapping("/misinversiones/{id}")
-    public ResponseEntity<List<Inversion>> misInversiones (@PathVariable Long id){
-        try{
-            List<Inversion> inversion = inversionService.obtenerMisInversiones(id);
-            return ResponseEntity.status(HttpStatus.OK).body(inversion);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
+    @GetMapping("/misinversiones")
+    public ResponseEntity<?> misInversiones (@RequestParam Long id){
+        try {
+            List<InversionDTO> resultado = inversionService.obtenerMisInversiones(id);
+
+            return ResponseEntity.ok(resultado);
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

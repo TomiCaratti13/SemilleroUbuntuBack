@@ -1,5 +1,6 @@
 package com.semillero.ubuntu.entities;
 
+import com.semillero.ubuntu.enums.NiveldeRiesgo;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class Inversion {
     private LocalDate fecha_creacion;
     private Boolean estado;
 
-    @OneToOne
+    @ManyToOne
     private Riesgo riesgo;
 
     @ManyToOne
