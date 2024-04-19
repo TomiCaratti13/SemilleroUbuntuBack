@@ -22,7 +22,7 @@ public class Inversion {
     private LocalDate fecha_creacion;
     private Boolean estado;
 
-    @OneToOne
+    @ManyToOne
     private Riesgo riesgo;
 
     @ManyToOne

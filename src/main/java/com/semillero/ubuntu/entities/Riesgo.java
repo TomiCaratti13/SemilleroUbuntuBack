@@ -24,7 +24,4 @@ public class Riesgo {
     private Double tasa_retorno;
     private Double factor_riesgo;
 
-    @OneToOne
-    private Inversion inversion;
-
 }

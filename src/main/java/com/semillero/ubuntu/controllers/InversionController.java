@@ -32,7 +32,7 @@ public class InversionController {
         try {
             Inversion inversion = inversionService.crearInversion(calculoDto,id_riesgo, id_user, id_micro);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(inversion);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
 
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
