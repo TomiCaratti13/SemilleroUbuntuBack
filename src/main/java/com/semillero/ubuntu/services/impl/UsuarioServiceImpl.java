@@ -1,24 +1,17 @@
 package com.semillero.ubuntu.services.impl;
 
 import com.semillero.ubuntu.dtos.UsuarioDTO;
-import com.semillero.ubuntu.entities.Inversion;
-import com.semillero.ubuntu.entities.Pais;
-import com.semillero.ubuntu.entities.Provincia;
 import com.semillero.ubuntu.entities.Usuario;
 import com.semillero.ubuntu.enums.Rol;
 import com.semillero.ubuntu.exceptions.ExceptionCreados;
-import com.semillero.ubuntu.exceptions.ResourceNotFoundException;
-import com.semillero.ubuntu.repositories.InversionRepository;
 import com.semillero.ubuntu.repositories.UsuarioRepositorio;
 
-import com.semillero.ubuntu.services.InversionService;
 import com.semillero.ubuntu.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,8 +19,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     UsuarioRepositorio usuarioRepository;
-    @Autowired
-    private InversionRepository inversionRepository;
 
     @Override
     @Transactional
@@ -64,7 +55,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         return ResponseEntity.notFound().build();
     }
 
-
     @Override
     @Transactional
     public void desactivarUsuario(Long id) throws ExceptionCreados {
@@ -80,26 +70,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
-
     private UsuarioDTO convertirUsuarioAUsuarioDTO(Usuario usuario) {
         if (usuario == null) {
-            return null; // or throw an exception, depending on your requirements
+            return null;
         }
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido(usuario.getApellido());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setTelefono(usuario.getTelefono());
-        usuarioDTO.setRol(usuario.getRole());
-        // Set other necessary fields
+        usuarioDTO.setRole(usuario.getRole());
         return usuarioDTO;
     }
 
-
-
 }
-
-
-
-
-

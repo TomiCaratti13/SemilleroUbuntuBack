@@ -37,14 +37,25 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String name = (String) oauth2User.getAttributes().get("name");
 
         Optional<Usuario> us = repository.findByEmail(email);
-        if (us.isEmpty()) {
+        boolean isAdmin = false;
+        boolean isInversor = false;
+
+        if (us.isPresent()) {
+            Usuario usuario = us.get();
+            if (usuario.getRole() == Rol.ADMIN) {
+                isAdmin = true;
+            }
+            if (usuario.getRole() == Rol.INVER) {
+                isInversor = true;
+            }
+        } else {
             Usuario usuarioDb = new Usuario();
             usuarioDb.setEmail(email);
             usuarioDb.setRole(Rol.ADMIN);
             usuarioDb.setNombre(name);
             repository.save(usuarioDb);
+            isAdmin = true;
         }
-        boolean isAdmin = true;
 
         Claims claims = Jwts.claims();
         List<GrantedAuthority> permisos = new ArrayList<>();
@@ -52,7 +63,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         claims.put("authorities", new ObjectMapper().writeValueAsString(permisos));
         claims.put("foto", foto);
         claims.put("nombre", name);
-        claims.put("isAdmin",true);
+        claims.put("isAdmin", isAdmin);
+        claims.put("isInversor", isInversor);
 
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -61,7 +73,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .compact();
-//
+
 //        ResponseCookie cookie = ResponseCookie.from("AUTH-TOKEN", token)
 //                .httpOnly(false)
 //                .maxAge(7 * 24 * 3600)
@@ -72,7 +84,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 //        response.addHeader("Access-Control-Allow-Origin", "*");
 //        response.addHeader("Access-Control-Allow-Credentials", "true");
 
-
         Map<String, Object> body = new HashMap<>();
         body.put("token", token);
 
@@ -80,6 +91,5 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         response.sendRedirect("http://localhost:5173/Admin/"+token);
         response.setStatus(200);
         response.setContentType("application/json");
-
     }
 }
