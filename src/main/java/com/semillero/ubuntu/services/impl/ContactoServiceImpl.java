@@ -36,12 +36,21 @@ public class ContactoServiceImpl implements ContactoService {
         Optional<MicroEmprendimiento> o = microEmprendimientoRepository.findById(idMicroemprendimiento);
         if (o.isPresent()) {
 
+            // MicroEmprendimiento emprendimiento = o.get();
+            // contacto.setFechaCreacion(new Date());
+            // contacto.setMicroEmprendimiento(emprendimiento);
+            // Usuario usuario = contacto.getUsuarioSolicitante();
+            // usuario.setRole(Rol.INVER);
+            // usuarioRepository.save(usuario);
+            // Contacto contactoDb = repository.save(contacto);
+            // emprendimiento.addContactos(contactoDb);
+            // microEmprendimientoRepository.save(emprendimiento);
+            // return ResponseEntity.ok().build();
+
             MicroEmprendimiento emprendimiento = o.get();
             contacto.setFechaCreacion(new Date());
             contacto.setMicroEmprendimiento(emprendimiento);
-            Usuario usuario = contacto.getUsuarioSolicitante();
-            usuario.setRole(Rol.INVER);
-            usuarioRepository.save(usuario);
+            usuarioRepository.save(contacto.getUsuarioSolicitante());
             Contacto contactoDb = repository.save(contacto);
             emprendimiento.addContactos(contactoDb);
             microEmprendimientoRepository.save(emprendimiento);
