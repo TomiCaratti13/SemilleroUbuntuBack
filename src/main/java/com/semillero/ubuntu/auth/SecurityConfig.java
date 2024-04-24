@@ -64,7 +64,10 @@ public class SecurityConfig {
                             .requestMatchers("/pregunta/*").permitAll()
                             .requestMatchers("/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
+
+
                 })
+
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new CustomAuthenticationSuccessHandler(usuarioRepository))
 
@@ -76,8 +79,8 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID") // Elimina las cookies después del logout
                         .logoutSuccessUrl("http://localhost:5173/") // URL de redirección después del logout
                 )
-                .addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
+
     }
 
     @Bean

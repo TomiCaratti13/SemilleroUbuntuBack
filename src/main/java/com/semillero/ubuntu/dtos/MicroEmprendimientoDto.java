@@ -27,7 +27,6 @@ public class MicroEmprendimientoDto implements Serializable {
     private List<String> mensajeContacto;
     @OneToMany
     private List<Imagen> imagenes;
-
     private Integer paisId;
     private Integer provinciaId;
     private Long rubroId;

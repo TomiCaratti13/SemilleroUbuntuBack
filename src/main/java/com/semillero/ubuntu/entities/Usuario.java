@@ -27,4 +27,7 @@ public class Usuario {
 
     @OneToMany
     private List<Inversion> inversiones;
+
+
+
 }
