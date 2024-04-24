@@ -36,12 +36,14 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String foto = (String) oauth2User.getAttributes().get("picture");
         String name = (String) oauth2User.getAttributes().get("name");
         Long id;
+
         Optional<Usuario> us = repository.findByEmail(email);
         boolean isAdmin = false;
         boolean isInversor = false;
 
         if (us.isPresent()) {
             Usuario usuario = us.get();
+            id = usuario.getId();
             if (usuario.getRole() == Rol.ADMIN) {
                 isAdmin = true;
             }
@@ -51,9 +53,10 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         } else {
             Usuario usuarioDb = new Usuario();
             usuarioDb.setEmail(email);
-            usuarioDb.setRole(Rol.ADMIN);
             usuarioDb.setNombre(name);
-            repository.save(usuarioDb);
+            usuarioDb.setRole(Rol.ADMIN);
+            Usuario guardado = repository.save(usuarioDb);
+            id = guardado.getId();
             isAdmin = true;
         }
 
@@ -62,6 +65,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         permisos.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         claims.put("authorities", new ObjectMapper().writeValueAsString(permisos));
         claims.put("foto", foto);
+        claims.put("id", id);
         claims.put("nombre", name);
         claims.put("isAdmin", isAdmin);
         claims.put("isInversor", isInversor);
@@ -73,16 +77,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .compact();
-
-//        ResponseCookie cookie = ResponseCookie.from("AUTH-TOKEN", token)
-//                .httpOnly(false)
-//                .maxAge(7 * 24 * 3600)
-//                .path("http://localhost:5173")
-//                .secure(false)
-//                .build();
-//        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-//        response.addHeader("Access-Control-Allow-Origin", "*");
-//        response.addHeader("Access-Control-Allow-Credentials", "true");
 
         Map<String, Object> body = new HashMap<>();
         body.put("token", token);
