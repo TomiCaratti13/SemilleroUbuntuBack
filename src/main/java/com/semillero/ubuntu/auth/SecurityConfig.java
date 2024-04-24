@@ -62,7 +62,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET,"/rubro/listarRubros").permitAll()
                             .requestMatchers("/respuesta/*").permitAll()
                             .requestMatchers("/pregunta/*").permitAll()
-                            .requestMatchers("/**").hasRole("ADMIN")
+                            .requestMatchers("/").hasRole("ADMIN")
                             .anyRequest().authenticated();
 
 

@@ -4,6 +4,8 @@ import com.semillero.ubuntu.dtos.ContactoDto;
 import com.semillero.ubuntu.dtos.mapper.DtoMapperContacto;
 import com.semillero.ubuntu.entities.Contacto;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
+import com.semillero.ubuntu.entities.Usuario;
+import com.semillero.ubuntu.enums.Rol;
 import com.semillero.ubuntu.repositories.ContactoRepository;
 import com.semillero.ubuntu.repositories.MicroEmprendimientoRepository;
 
@@ -37,8 +39,9 @@ public class ContactoServiceImpl implements ContactoService {
             MicroEmprendimiento emprendimiento = o.get();
             contacto.setFechaCreacion(new Date());
             contacto.setMicroEmprendimiento(emprendimiento);
-            usuarioRepository.save(contacto.getUsuarioSolicitante());
-
+            Usuario usuario = contacto.getUsuarioSolicitante();
+            usuario.setRole(Rol.INVER);
+            usuarioRepository.save(usuario);
             Contacto contactoDb = repository.save(contacto);
             emprendimiento.addContactos(contactoDb);
             microEmprendimientoRepository.save(emprendimiento);

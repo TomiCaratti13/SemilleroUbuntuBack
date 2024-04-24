@@ -16,7 +16,7 @@ import java.util.List;
 public interface InversionRepository extends JpaRepository<Inversion,Long> {
 
 
-    @Query( value = "SELECT * FROM inversiones i WHERE i.usuario_id = id",nativeQuery = true)
+    @Query( value = "SELECT * FROM inversiones i WHERE i.usuario_id = :id",nativeQuery = true)
     List<Inversion> obtenerMisInversiones(@Param("id") Long id);
 
 }
