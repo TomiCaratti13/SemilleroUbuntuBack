@@ -20,6 +20,7 @@ public class InversionDTO {
     private Long cuotasFaltantes;
     private LocalDate fechaCreacion;
     private String riesgo;
+    private Long costo;
     private String microEmprendimiento;
     private Boolean estado;
 

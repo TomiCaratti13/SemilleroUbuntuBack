@@ -89,6 +89,7 @@ public class InversionServiceImp implements InversionService {
                 dto.setCuotasFaltantes(i.getCuotas_faltantes());
                 dto.setFechaCreacion(i.getFecha_creacion());
                 dto.setRiesgo(i.getRiesgo().getNombre_riesgo().toString());
+                dto.setCosto(i.getRiesgo().getCosto());
                 dto.setMicroEmprendimiento(i.getMicroEmprendimiento().getNombre());
                 dto.setEstado(i.getEstado());
                 listadto.add(dto);
