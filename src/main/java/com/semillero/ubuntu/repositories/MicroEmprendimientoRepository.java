@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface MicroEmprendimientoRepository extends JpaRepository<MicroEmprendimiento, Long> {
 
-    @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE %:nombre%")
+    @Query("SELECT a from MicroEmprendimiento a WHERE a.nombre LIKE %:nombre% AND delete=0" )
     public List<MicroEmprendimiento> buscarPorNombre(@Param("nombre") String nombre);
 
     @Query("SELECT m FROM MicroEmprendimiento m WHERE m.fechaCreacion BETWEEN :fechaInicio AND :fechaFin")
