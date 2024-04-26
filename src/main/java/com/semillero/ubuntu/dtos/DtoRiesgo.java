@@ -12,6 +12,7 @@ public class DtoRiesgo {
 
     private Long id;
     private String nombre;
-
+    private Long invMinima;
+    private Long invMaxima;
 
 }

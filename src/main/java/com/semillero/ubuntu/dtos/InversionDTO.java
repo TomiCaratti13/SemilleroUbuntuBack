@@ -1,4 +1,4 @@
-package com.semillero.ubuntu.dtos.mapper;
+package com.semillero.ubuntu.dtos;
 
 import lombok.*;
 

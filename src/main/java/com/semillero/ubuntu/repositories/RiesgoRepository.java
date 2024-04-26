@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RiesgoRepository extends JpaRepository<Riesgo,Long> {
+public interface RiesgoRepository extends JpaRepository<Riesgo, Long> {
 
 }

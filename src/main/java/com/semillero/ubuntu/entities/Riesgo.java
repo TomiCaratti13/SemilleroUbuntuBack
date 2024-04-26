@@ -17,8 +17,8 @@ public class Riesgo {
     private Long costo;
     private Long cuotas;
     private String descripcion;
-    private Long inv_minima;
-    private Long inv_maxima;
+    private Long invMinima;
+    private Long invMaxima;
     @Enumerated(EnumType.STRING)
     private NiveldeRiesgo nombre_riesgo;
     private Double tasa_retorno;

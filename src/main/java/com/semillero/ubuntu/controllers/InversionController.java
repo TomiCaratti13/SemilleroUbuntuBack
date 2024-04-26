@@ -1,7 +1,7 @@
 package com.semillero.ubuntu.controllers;
 
 import com.semillero.ubuntu.dtos.CalculoDto;
-import com.semillero.ubuntu.dtos.mapper.InversionDTO;
+import com.semillero.ubuntu.dtos.InversionDTO;
 import com.semillero.ubuntu.entities.Inversion;
 import com.semillero.ubuntu.services.InversionService;
 import com.semillero.ubuntu.services.UsuarioService;

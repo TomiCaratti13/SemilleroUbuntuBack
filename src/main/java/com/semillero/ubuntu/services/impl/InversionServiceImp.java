@@ -1,7 +1,7 @@
 package com.semillero.ubuntu.services.impl;
 
 import com.semillero.ubuntu.dtos.CalculoDto;
-import com.semillero.ubuntu.dtos.mapper.InversionDTO;
+import com.semillero.ubuntu.dtos.InversionDTO;
 import com.semillero.ubuntu.entities.Inversion;
 import com.semillero.ubuntu.entities.MicroEmprendimiento;
 import com.semillero.ubuntu.entities.Riesgo;

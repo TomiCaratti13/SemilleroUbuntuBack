@@ -55,6 +55,8 @@ public class RiesgoServeceImp implements RiesgoService {
         DtoRiesgo dtoRiesgo = new DtoRiesgo();
         dtoRiesgo.setId(riesgo.getId());
         dtoRiesgo.setNombre(String.valueOf(riesgo.getNombre_riesgo()));
+        dtoRiesgo.setInvMinima(riesgo.getInvMinima());
+        dtoRiesgo.setInvMaxima(riesgo.getInvMaxima());
         return dtoRiesgo;
     }
 
@@ -63,7 +65,7 @@ public class RiesgoServeceImp implements RiesgoService {
     public ResponseEntity<CalculoDto> calculo(Long id, Long monto) {
         Optional<Riesgo> riesgo = riesgoRepository.findById(id);
         CalculoDto calculoDto = new CalculoDto();
-        if (riesgo.isPresent() && monto <= riesgo.get().getInv_maxima() && monto >= riesgo.get().getInv_minima()) {
+        if (riesgo.isPresent() && monto <= riesgo.get().getInvMaxima() && monto >= riesgo.get().getInvMinima()) {
             calculoDto.setCosto(riesgo.get().getCosto());
             calculoDto.setTotal(riesgo.get().getCosto() + monto);
             calculoDto.setCuotas(riesgo.get().getCuotas());
