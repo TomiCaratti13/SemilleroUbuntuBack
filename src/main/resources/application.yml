@@ -4,8 +4,8 @@ spring:
       client:
         registration:
           google:
-            client-id: 403200765369-mc5tks9ap8vpt9qd637bjem75ef1s02p.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
             authorization-uri: https://accounts.google.com/o/oauth2/auth
             token-uri: https://oauth2.googleapis.com/token
 #           redirect-uri: http://localhost:5173/Admin
